@@ -18,7 +18,7 @@
     /* Flixo Soft Cloud Theme */
     --bg-base: #F3F6F4;
     --surface-glass: rgba(255, 255, 255, 0.78);
-    --surface-glass-solid: rgba(255, 255, 255, 0.95);
+    --surface-glass-solid: rgba(255, 255, 255, 0.96);
     --surface-soft: rgba(235, 244, 238, 0.75);
     --surface-hover: rgba(255, 255, 255, 0.98);
     
@@ -392,16 +392,18 @@
   .meal-title { font-weight: 600; font-size: 14px; color: var(--ink); }
   .meal-sub { font-size: 11.5px; color: var(--ink-soft); margin-top: 2px; }
 
-  /* Modal Sheet for Config/Profile */
+  /* Centered Modal Dialog for Config/Profile */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(17, 24, 39, 0.4);
+    background: rgba(17, 24, 39, 0.45);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 1000;
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    align-items: center; /* Perfect Vertical Centering */
+    justify-content: center; /* Perfect Horizontal Centering */
+    padding: 16px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease;
@@ -412,19 +414,21 @@
   }
   .modal-sheet {
     width: 100%;
-    max-width: 480px;
+    max-width: 440px;
     background: var(--surface-glass-solid);
     backdrop-filter: var(--glass-blur);
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    padding: 24px 20px 36px;
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
-    transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    max-height: 90vh;
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--line-light);
+    border-radius: var(--radius-xl);
+    padding: 24px 22px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+    transform: scale(0.92) translateY(10px);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 85vh;
     overflow-y: auto;
   }
   .modal-overlay.open .modal-sheet {
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
   }
 
   .segmented-control {
@@ -826,7 +830,7 @@ function render(){
         : state.meals.map(mealRowHTML).join("")}
     </div>
 
-    <!-- Settings & Profile Modal Sheet -->
+    <!-- Centered Modal Sheet for Config/Profile (Perfectly Eye-Level Centered) -->
     <div class="modal-overlay ${state.showConfigModal ? 'open' : ''}" onclick="if(event.target===this) setState({showConfigModal:false})">
       <div class="modal-sheet">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
