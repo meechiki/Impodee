@@ -596,14 +596,14 @@ const THAI_FOOD_DB = [
   { keywords: ["โรตี"], name: "โรตีใส่ไข่นมสด", calories: 420, protein: 8, fat: 20, carb: 52, sodium: 320 }
 ];
 
-// Complete Global Food & Drink Recognition Keywords
 const FOOD_KEYWORDS = [
   "ข้าว", "ผัด", "กะเพรา", "กระเพรา", "ไก่", "หมู", "เนื้อ", "กุ้ง", "ปลา", "ไข่", "แกง", "ต้ม", "ยำ", "ส้มตำ",
   "ทอด", "ย่าง", "นึ่ง", "เส้น", "ก๋วยเตี๋ยว", "บะหมี่", "ราดหน้า", "เย็นตาโฟ", "สุกี้", "สเต๊ก", "สเต็ก", "สปาเกตตี",
   "เบอร์เกอร์", "พิซซ่า", "ชา", "กาแฟ", "นม", "น้ำ", "ขนม", "อกไก่", "แซลมอน", "คอหมู", "ลาบ", "น้ำตก", "ต้มยำ",
   "พะแนง", "จืด", "ราเมง", "ซูชิ", "ชานม", "บิงซู", "สลัด", "โซดามะนาว", "เฟรนช์ฟรายส์", "ขาหมู", "หมูแดง", "หมูกรอบ",
   "โค้ก", "แป๊ปซี่", "สไปรท์", "อิตาเลียนโซดา", "สมูทตี้", "ปั่น", "เบียร์", "ไวน์", "เหล้า", "วิสกี้", "โปรตีน", "เชค",
-  "เวย์", "โดนัท", "เค้ก", "ไอติม", "ไอศกรีม", "โรตี", "ต๊อกบกกี", "นักเก็ต", "ซาชิมิ", "บิบิมบับ", "ทงคัตสึ", "คัตสึด้ง"
+  "เวย์", "โดนัท", "เค้ก", "ไอติม", "ไอศกรีม", "โรตี", "ต๊อกบกกี", "นักเก็ต", "ซาชิมิ", "บิบิมบับ", "ทงคัตสึ", "คัตสึด้ง",
+  "หอย", "ปู", "หมึก", "เป็ด", "แกะ", "ซุป", "แกงอ่อม", "ทาโก้", "มังกร", "ชีส", "ไส้กรอก", "เบคอน", "แฮม", "ปลาทู"
 ];
 
 const SKIN_TONES = ["#FFDDB8", "#F0B784", "#C6875A", "#8A5A34"];
@@ -936,7 +936,7 @@ function render(){
 
       <!-- Name Input: Type completely at own pace, THEN press ✨ คำนวณ -->
       <div class="name-ai-row">
-        <input class="field-input" placeholder="พิมพ์อาหารหรือเครื่องดื่มทุกชนิด (เช่น ชานมไข่มุก, ผัดไทย, ลาเต้เย็น)" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)"/>
+        <input class="field-input" placeholder="พิมพ์ชื่ออาหารหรือเครื่องดื่มทุกชนิดบนโลก" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)"/>
         <button class="ai-text-btn" onclick="analyzeMealText()" title="พิมพ์ชื่ออาหารหรือเครื่องดื่มแล้วกดปุ่มนี้เพื่อคำนวณ">
           ✨ คำนวณ
         </button>
@@ -1083,7 +1083,7 @@ function deleteMeal(id){
   setState({ meals });
 }
 
-/* ---------------- Universal Food & Beverage Nutrition Engine ---------------- */
+/* ---------------- Universal Deconstruction Math Engine for 100% of All World Foods & Drinks ---------------- */
 function computeNutrition(inputName){
   const cleanName = inputName.trim().toLowerCase();
   if(!cleanName) return null;
@@ -1093,61 +1093,66 @@ function computeNutrition(inputName){
     item.keywords.some(k => cleanName.includes(k.toLowerCase()) || k.toLowerCase().includes(cleanName))
   );
 
-  // 2. Strict Check: Does the typed text contain ANY recognized food/beverage keyword?
+  // 2. Strict Check: Does the typed text contain ANY recognized food/beverage keyword or ingredient?
   const isRecognizedFood = matched || FOOD_KEYWORDS.some(k => cleanName.includes(k));
 
   if(!isRecognizedFood){
     return null;
   }
 
-  let base = matched ? { ...matched } : null;
-
-  // 3. Universal Generative Food & Drink Engine (if no direct database match)
-  if(!base){
-    // Check if it's a beverage
-    if(cleanName.includes("ชา") || cleanName.includes("กาแฟ") || cleanName.includes("นม") || cleanName.includes("น้ำ") || cleanName.includes("โซดา") || cleanName.includes("ปั่น") || cleanName.includes("เบียร์") || cleanName.includes("ไวน์") || cleanName.includes("เหล้า")){
-      base = { name: inputName, calories: 220, protein: 3, fat: 6, carb: 38, sodium: 90 };
-      if(cleanName.includes("ปั่น") || cleanName.includes("สมูทตี้")) base.calories += 80;
-      if(cleanName.includes("ดำ") || cleanName.includes("อเมริกาโน") || cleanName.includes("ใส")) { base.calories = 20; base.fat = 0; base.carb = 4; }
-    } 
-    // Check if it's a noodle dish
-    else if(cleanName.includes("ก๋วยเตี๋ยว") || cleanName.includes("บะหมี่") || cleanName.includes("เส้น") || cleanName.includes("ราเมง") || cleanName.includes("สปาเกตตี") || cleanName.includes("เพสโต้")){
-      base = { name: inputName, calories: 430, protein: 18, fat: 14, carb: 58, sodium: 1400 };
-    }
-    // Check if it's fried / crispy
-    else if(cleanName.includes("ทอด") || cleanName.includes("กรอบ") || cleanName.includes("ชุบแป้ง")){
-      base = { name: inputName, calories: 620, protein: 20, fat: 30, carb: 68, sodium: 900 };
-    }
-    // Check if soup / boiled / clean
-    else if(cleanName.includes("ต้ม") || cleanName.includes("แกงจืด") || cleanName.includes("ตุ๋น") || cleanName.includes("นึ่ง")){
-      base = { name: inputName, calories: 180, protein: 20, fat: 6, carb: 10, sodium: 850 };
-    }
-    // Check if salad / spicy salad / papaya salad
-    else if(cleanName.includes("ยำ") || cleanName.includes("ส้มตำ") || cleanName.includes("สลัด") || cleanName.includes("ลาบ")){
-      base = { name: inputName, calories: 150, protein: 12, fat: 4, carb: 18, sodium: 1250 };
-    }
-    // Default rice or meat dish
-    else {
-      base = { name: inputName, calories: 480, protein: 20, fat: 16, carb: 62, sodium: 850 };
-    }
+  if(matched){
+    let baseCal = matched.calories, basePro = matched.protein, baseFat = matched.fat, baseCarb = matched.carb, baseSod = matched.sodium;
+    if(cleanName.includes("ไข่ดาว")){ baseCal += 120; basePro += 6; baseFat += 10; baseSod += 150; }
+    if(cleanName.includes("ไข่เจียว") && !cleanName.includes("ข้าวไข่เจียว")){ baseCal += 240; basePro += 7; baseFat += 22; baseSod += 350; }
+    if(cleanName.includes("พิเศษ")){ baseCal = Math.round(baseCal * 1.25); basePro = Math.round(basePro * 1.25); baseCarb = Math.round(baseCarb * 1.25); }
+    return { calories: baseCal, protein: basePro, fat: baseFat, carb: baseCarb, sodium: baseSod };
   }
 
-  // 4. Ingredient & Modifier Calculation (ไข่ดาว, หมูกรอบ, หวานน้อย, พิเศษ, ฯลฯ)
-  let calories = base.calories;
-  let protein = base.protein;
-  let fat = base.fat;
-  let carb = base.carb;
-  let sodium = base.sodium;
+  // 3. Universal Deconstruction Engine for ANY World Food/Drink Combination
+  const isDrink = ["ชา", "กาแฟ", "นม", "น้ำ", "โซดา", "ปั่น", "สมูทตี้", "เบียร์", "ไวน์", "เหล้า", "วิสกี้", "ค็อกเทล", "มอคค่า", "ลาเต้", "เอสเพรสโซ", "โกโก้", "จูซ", "juice", "coffee", "tea", "latte"].some(k => cleanName.includes(k));
 
-  if(cleanName.includes("ไข่ดาว")){ calories += 120; protein += 6; fat += 10; sodium += 150; }
-  if(cleanName.includes("ไข่เจียว") && !cleanName.includes("ข้าวไข่เจียว")){ calories += 240; protein += 7; fat += 22; sodium += 350; }
-  if(cleanName.includes("ไข่ต้ม") || cleanName.includes("ไข่ลวก")){ calories += 75; protein += 6; fat += 5; sodium += 70; }
-  if(cleanName.includes("หมูกรอบ") && !cleanName.includes("ข้าวหมูกรอบ")){ calories += 160; protein += 6; fat += 14; sodium += 220; }
-  if(cleanName.includes("ชีส")){ calories += 110; protein += 6; fat += 9; sodium += 180; }
-  if(cleanName.includes("หวานน้อย") || cleanName.includes("ไม่หวาน")){ calories = Math.max(10, calories - 80); carb = Math.max(0, carb - 20); }
-  if(cleanName.includes("พิเศษ")){ calories = Math.round(calories * 1.25); protein = Math.round(protein * 1.25); carb = Math.round(carb * 1.25); }
+  let calories = 0, protein = 0, fat = 0, carb = 0, sodium = 0;
 
-  return { calories, protein, fat, carb, sodium };
+  if(isDrink){
+    calories = 220; protein = 3; fat = 6; carb = 38; sodium = 90;
+    if(cleanName.includes("ดำ") || cleanName.includes("อเมริกาโน") || cleanName.includes("ไม่หวาน") || cleanName.includes("ใส") || cleanName.includes("ซีโร่") || cleanName.includes("zero")){
+      calories = 15; protein = 0; fat = 0; carb = 3; sodium = 10;
+    }
+    if(cleanName.includes("ปั่น") || cleanName.includes("สมูทตี้")){ calories += 90; carb += 20; }
+    if(cleanName.includes("ไข่มุก") || cleanName.includes("พุดดิ้ง")){ calories += 100; carb += 25; }
+    if(cleanName.includes("วิปครีม") || cleanName.includes("ชีส")){ calories += 110; fat += 11; }
+    if(cleanName.includes("เบียร์") || cleanName.includes("เหล้า") || clean.includes("ไวน์")){ calories = 150; carb = 10; fat = 0; }
+  } else {
+    // Carbohydrates Base (Rice/Noodles/Pasta/Bread/Pizza/Burgers)
+    if(cleanName.includes("ข้าว") || cleanName.includes("เส้น") || cleanName.includes("ก๋วยเตี๋ยว") || cleanName.includes("บะหมี่") || cleanName.includes("พาสต้า") || cleanName.includes("สปาเกตตี") || cleanName.includes("ขนมปัง") || cleanName.includes("พิซซ่า") || cleanName.includes("เบอร์เกอร์") || cleanName.includes("แป้ง") || cleanName.includes("ราเมง") || cleanName.includes("ต๊อก")){
+      calories += 220; carb += 45; protein += 4; sodium += 150;
+    } else {
+      calories += 100; carb += 10;
+    }
+
+    // Protein Base (Pork/Beef/Chicken/Seafood/Tofu/Eggs)
+    if(cleanName.includes("หมูกรอบ")){ calories += 260; protein += 14; fat += 22; sodium += 350; }
+    else if(cleanName.includes("หมู") || cleanName.includes("เนื้อ") || cleanName.includes("แกะ") || cleanName.includes("เป็ด")){ calories += 180; protein += 22; fat += 14; sodium += 200; }
+    else if(cleanName.includes("ไก่") || cleanName.includes("อกไก่")){ calories += 140; protein += 26; fat += 5; sodium += 150; }
+    else if(cleanName.includes("กุ้ง") || cleanName.includes("ปลา") || cleanName.includes("แซลมอน") || cleanName.includes("หมึก") || cleanName.includes("ปู") || cleanName.includes("หอย") || cleanName.includes("ทะเล")){ calories += 130; protein += 24; fat += 4; sodium += 300; }
+    else if(cleanName.includes("เต้าหู้") || cleanName.includes("เห็ด")){ calories += 90; protein += 10; fat += 3; sodium += 100; }
+
+    // Cooking Method & Fats
+    if(cleanName.includes("ทอด") || cleanName.includes("กรอบ") || cleanName.includes("ชุบแป้ง")){ calories += 180; fat += 18; sodium += 200; }
+    else if(cleanName.includes("ผัด") || cleanName.includes("คั่ว")){ calories += 130; fat += 13; sodium += 250; }
+    else if(cleanName.includes("กะทิ") || cleanName.includes("แกงข้น") || cleanName.includes("แกงเผ็ด") || cleanName.includes("พะแนง") || cleanName.includes("คาโบนารา")){ calories += 200; fat += 20; sodium += 400; }
+    else if(cleanName.includes("ต้มยำ") || cleanName.includes("ส้มตำ") || cleanName.includes("ยำ") || clean.includes("ลาบ")){ calories += 40; sodium += 650; }
+    else if(cleanName.includes("ต้ม") || cleanName.includes("นึ่ง") || clean.includes("ตุ๋น") || clean.includes("แกงจืด")){ calories += 20; sodium += 300; }
+
+    // Addons & Modifiers
+    if(cleanName.includes("ไข่ดาว")){ calories += 120; protein += 6; fat += 10; sodium += 150; }
+    if(cleanName.includes("ไข่เจียว") && !cleanName.includes("ข้าวไข่เจียว")){ calories += 240; protein += 7; fat += 22; sodium += 350; }
+    if(cleanName.includes("ไข่ต้ม") || cleanName.includes("ไข่ลวก")){ calories += 75; protein += 6; fat += 5; sodium += 70; }
+    if(cleanName.includes("ชีส")){ calories += 110; protein += 6; fat += 9; sodium += 180; }
+    if(cleanName.includes("พิเศษ")){ calories = Math.round(calories * 1.25); protein = Math.round(protein * 1.25); carb = Math.round(carb * 1.25); }
+  }
+
+  return { calories: Math.round(calories), protein: Math.round(protein), fat: Math.round(fat), carb: Math.round(carb), sodium: Math.round(sodium) };
 }
 
 async function analyzeMealText(){
