@@ -255,21 +255,27 @@
     margin-bottom: 12px;
   }
   .ai-btn {
-    padding: 10px;
+    padding: 9px 12px;
     border-radius: var(--radius-md);
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 600;
     font-family: 'Kanit', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 5px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+
+  .name-ai-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
   }
 
   .input-row {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin-bottom: 8px;
   }
@@ -315,6 +321,22 @@
     gap: 6px;
   }
   .primary-btn:active { transform: scale(0.97); }
+
+  .ai-text-btn {
+    background: linear-gradient(135deg, var(--purple) 0%, #7C3AED 100%);
+    color: #ffffff;
+    padding: 0 14px;
+    border-radius: var(--radius-md);
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: 'Kanit', sans-serif;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+  }
+  .ai-text-btn:active { transform: scale(0.96); }
 
   /* Collapsible / Drawer Accordion */
   .expandable-panel {
@@ -685,13 +707,14 @@ function render(){
   const calPct = Math.min(100, Math.round((totals.calories / Math.max(1, targets.calories)) * 100));
   const f = state.form;
   const canSave = f.name.trim() && f.calories !== "";
+  const canAiText = f.name.trim().length > 0;
   const hasKey = !!state.apiKey;
 
   document.getElementById("root").innerHTML = `
     <!-- Unified Hero Dashboard Card (Avatar + Targets) -->
     <div class="glass-card hero-card">
       <div class="avatar-container">
-        <!-- 🔥 Streak Pill directly above avatar head -->
+        <!-- Streak Pill directly above avatar head -->
         <div class="streak-pill">
           <span class="streak-fire">🔥</span>
           <span style="font-family:'Kanit'; font-weight:700; font-size:12px; color:var(--gold-deep)">${streak} วัน</span>
@@ -740,19 +763,19 @@ function render(){
       </div>
     </div>
 
-    <!-- Quick Meal Entry Card -->
+    <!-- Quick Meal Entry Card with AI Text Auto-Calculator + Image & Barcode -->
     <div class="glass-card">
       <div class="quick-logger-header">
         <div class="quick-logger-title">
           <span>➕ บันทึกมื้ออาหาร</span>
         </div>
         <div style="display:flex; align-items:center; gap:8px">
-          ${!hasKey ? `<span style="font-size:11px; color:var(--gold-deep); background:var(--gold-light); padding:3px 8px; border-radius:999px; font-weight:600">ใส่ API Key เพื่อสแกนรูป</span>` : ""}
-          <!-- ⚙️ Clean Settings button placed right on the entry card header -->
+          ${!hasKey ? `<span style="font-size:11px; color:var(--gold-deep); background:var(--gold-light); padding:3px 8px; border-radius:999px; font-weight:600">ใส่ API Key เพื่อเปิดใช้ AI</span>` : ""}
           <button class="icon-btn" onclick="setState({showConfigModal:true})" title="ตั้งค่า TDEE & API Key">⚙️</button>
         </div>
       </div>
 
+      <!-- Camera & Barcode Action Buttons -->
       <div class="ai-scan-btn-group">
         <button onclick="triggerCamera(false)" ${state.scanning || !hasKey ? 'disabled' : ''} class="ai-btn" style="background:linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%); color:#fff; opacity:${hasKey?1:0.55}">
           📷 ถ่ายรูปอาหาร
@@ -765,19 +788,27 @@ function render(){
       <input id="cameraInput" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImageSelected(this, false)"/>
       <input id="barcodeInput" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImageSelected(this, true)"/>
 
-      ${state.scanning ? `<div style="color:var(--emerald-deep); font-size:12.5px; font-weight:600; text-align:center; padding:6px 0">กำลังวิเคราะห์ภาพอาหาร...</div>` : ""}
+      ${state.scanning ? `<div style="color:var(--purple); font-size:12.5px; font-weight:600; text-align:center; padding:6px 0">✨ กำลังให้ Claude AI วิเคราะห์โภชนาการ...</div>` : ""}
       ${state.scanError ? `<div style="color:var(--coral-deep); font-size:12px; margin-bottom:8px">${state.scanError}</div>` : ""}
 
+      <!-- Name Input with AI Auto Calculate Button -->
+      <div class="name-ai-row">
+        <input class="field-input" placeholder="พิมพ์ชื่ออาหาร (เช่น ข้าวมันไก่ต้ม, ผัดไทยกุ้งสด)" value="${escapeAttr(f.name)}" oninput="updateForm('name', this.value)"/>
+        <button class="ai-text-btn" onclick="analyzeMealText()" ${state.scanning || !hasKey || !canAiText ? 'disabled' : ''} style="opacity:${hasKey && canAiText ? 1 : 0.55}" title="ให้ AI วิเคราะห์แคลอรี่และสารอาหารจากชื่อเมนู">
+          ✨ AI วิเคราะห์
+        </button>
+      </div>
+
       <div class="input-row">
-        <input class="field-input" placeholder="ชื่ออาหาร (เช่น ข้าวมันไก่)" value="${escapeAttr(f.name)}" oninput="updateForm('name', this.value)"/>
         <input class="field-input" type="number" placeholder="แคลอรี่ (kcal)" value="${escapeAttr(f.calories)}" oninput="updateForm('calories', this.value)"/>
+        <input class="field-input" type="number" placeholder="โซเดียม (mg)" value="${escapeAttr(f.sodium)}" oninput="updateForm('sodium', this.value)"/>
       </div>
 
       <div class="input-grid-4">
         <input class="field-input" type="number" placeholder="โปรตีน(g)" value="${escapeAttr(f.protein)}" oninput="updateForm('protein', this.value)"/>
         <input class="field-input" type="number" placeholder="ไขมัน(g)" value="${escapeAttr(f.fat)}" oninput="updateForm('fat', this.value)"/>
         <input class="field-input" type="number" placeholder="คาร์บ(g)" value="${escapeAttr(f.carb)}" oninput="updateForm('carb', this.value)"/>
-        <input class="field-input" type="number" placeholder="โซเดียม(mg)" value="${escapeAttr(f.sodium)}" oninput="updateForm('sodium', this.value)"/>
+        <span style="font-size:11px; color:var(--ink-soft); display:flex; align-items:center; justify-content:center">ปรับแก้ได้</span>
       </div>
 
       <button class="primary-btn" style="opacity:${canSave ? 1 : 0.5}" onclick="submitMeal()" ${canSave ? '' : 'disabled'}>
@@ -834,7 +865,7 @@ function render(){
         <button class="primary-btn" onclick="saveProfile()" style="margin-bottom:16px">💾 บันทึกเป้าหมาย TDEE</button>
 
         <div style="border-top:1px dashed var(--line); padding-top:14px">
-          <label style="font-size:12.5px; font-weight:600; color:var(--ink); display:block; margin-bottom:4px">Anthropic API Key (สำหรับสแกนอาหาร)</label>
+          <label style="font-size:12.5px; font-weight:600; color:var(--ink); display:block; margin-bottom:4px">Anthropic API Key (สำหรับ AI สแกน & พิมพ์คำนวณ)</label>
           <input class="field-input" type="password" placeholder="sk-ant-..." value="${escapeAttr(state.apiKey)}" oninput="updateApiKeyDraft(this.value)" style="margin-bottom:8px"/>
           <button class="primary-btn" style="background:var(--emerald-deep)" onclick="saveApiKey()">💾 บันทึก API Key</button>
         </div>
@@ -877,6 +908,56 @@ function deleteMeal(id){
   const meals = state.meals.filter(m => m.id !== id);
   saveJSON(LS_KEYS.logPrefix + todayStr(), meals);
   setState({ meals });
+}
+
+/* ---------------- AI Text Auto Calculator ---------------- */
+async function analyzeMealText(){
+  const name = state.form.name.trim();
+  if(!name) return;
+  if(!state.apiKey){
+    setState({ scanError: "กรุณาใส่ Anthropic API Key ที่ปุ่ม ⚙️ ก่อนใช้งานระบบ AI" });
+    return;
+  }
+  setState({ scanning: true, scanError: "" });
+  try {
+    const promptText = `เมนูอาหาร: "${name}" กรุณาประเมินค่าโภชนาการสำหรับเมนูนี้ 1 จาน/1 หน่วยบริโภค ตอบเป็น JSON เท่านั้น ไม่มีคำอธิบายอื่น รูปแบบ: {"name": string, "calories": number, "protein": number, "fat": number, "carb": number, "sodium": number} หน่วย: calories=kcal, protein/fat/carb=กรัม, sodium=มิลลิกรัม`;
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": state.apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: promptText }]
+      })
+    });
+
+    const data = await response.json();
+    if(data.error) throw new Error(data.error.message || "API error");
+
+    const text = (data.content || []).map(c => c.text || "").join("");
+    const clean = text.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(clean);
+
+    setState({
+      form: {
+        name: parsed.name || name,
+        calories: String(Math.round(parsed.calories || 0)),
+        protein: String(Math.round(parsed.protein || 0)),
+        fat: String(Math.round(parsed.fat || 0)),
+        carb: String(Math.round(parsed.carb || 0)),
+        sodium: String(Math.round(parsed.sodium || 0)),
+      },
+      scanning: false
+    });
+  } catch(e) {
+    setState({ scanning: false, scanError: "AI วิเคราะห์ไม่สำเร็จ (" + e.message + ")" });
+  }
 }
 
 function triggerCamera(isBarcode){
