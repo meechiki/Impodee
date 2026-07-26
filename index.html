@@ -571,7 +571,6 @@ const THAI_FOOD_DB = [
   { keywords: ["ข้าวเหนียวมะม่วง"], name: "ข้าวเหนียวมะม่วง", calories: 450, protein: 6, fat: 14, carb: 75, sodium: 220 }
 ];
 
-// Valid Food Keywords to detect real food names vs gibberish/nonsense
 const FOOD_KEYWORDS = [
   "ข้าว", "ผัด", "กะเพรา", "กระเพรา", "ไก่", "หมู", "เนื้อ", "กุ้ง", "ปลา", "ไข่", "แกง", "ต้ม", "ยำ", "ส้มตำ",
   "ทอด", "ย่าง", "นึ่ง", "เส้น", "ก๋วยเตี๋ยว", "บะหมี่", "ราดหน้า", "เย็นตาโฟ", "สุกี้", "สเต๊ก", "สเต็ก", "สปาเกตตี",
@@ -907,10 +906,10 @@ function render(){
       ${state.scanSuccess ? `<div class="status-badge" style="color:var(--emerald-deep); background:var(--emerald-light); border:1px solid rgba(16, 185, 129, 0.3)">${state.scanSuccess}</div>` : ""}
       ${state.scanError ? `<div class="status-badge" style="color:var(--coral-deep); background:var(--coral-light); border:1px solid rgba(255, 107, 74, 0.3)">${state.scanError}</div>` : ""}
 
-      <!-- Name Input with Instant Realtime Auto Calculate -->
+      <!-- Name Input: Type completely at own pace, THEN press ✨ คำนวณ -->
       <div class="name-ai-row">
         <input class="field-input" placeholder="พิมพ์ชื่ออาหาร (เช่น ผัดไทย, ข้าวมันไก่, กะเพราไข่ดาว)" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)"/>
-        <button class="ai-text-btn" onclick="analyzeMealText()" title="กดเพื่อคำนวณแคลอรี่และสารอาหารตามหลักโภชนาการทันที">
+        <button class="ai-text-btn" onclick="analyzeMealText()" title="พิมพ์ชื่ออาหารให้เสร็จแล้วกดปุ่มนี้เพื่อคำนวณ">
           ✨ คำนวณ
         </button>
       </div>
@@ -1008,7 +1007,7 @@ function updateForm(key, value){
   }
 }
 
-let autoCalcTimer = null;
+// Simple Name Input - Allow user to type completely without interrupting them!
 function handleNameInput(val){
   state.form.name = val;
   const canSave = val.trim().length > 0;
@@ -1016,14 +1015,6 @@ function handleNameInput(val){
   if(saveBtn){
     saveBtn.disabled = !canSave;
     saveBtn.style.opacity = canSave ? 1 : 0.5;
-  }
-
-  // Real-time auto-calculation while typing (Debounced 350ms)
-  clearTimeout(autoCalcTimer);
-  if(val.trim().length >= 2){
-    autoCalcTimer = setTimeout(() => {
-      analyzeMealText();
-    }, 350);
   }
 }
 
@@ -1135,6 +1126,7 @@ function computeNutrition(inputName){
   return { calories, protein, fat, carb, sodium };
 }
 
+// Triggered ONLY when user clicks the "✨ คำนวณ" button!
 async function analyzeMealText(){
   const inputName = state.form.name.trim();
   if(!inputName) return;
