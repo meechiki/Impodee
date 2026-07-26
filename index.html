@@ -551,6 +551,108 @@
 <script>
 /* ---------------- Precise Scientific Nutrition Database according to USDA & Thai FCT ---------------- */
 const THAI_FOOD_DB = [
+  // หมวดผลไม้ (Fruits Knowledge Base)
+  { 
+    keywords: ["ทุเรียน"], name: "ทุเรียน (1 เม็ดใหญ่ / ~100g)", 
+    calories: 147, protein: 1.5, fat: 5.3, hdlFat: 4.1, ldlFat: 1.2, cholesterol: 0, carb: 27, sugar: 20, fiber: 3.8, 
+    sodium: 2, potassium: 436, calcium: 6, iron: 0.4, magnesium: 30, vitaminD: 0, vitaminB: 0.4, folate: 36, collagen: 0 
+  },
+  { 
+    keywords: ["มังคุด"], name: "มังคุด (4 ลูก / ~100g)", 
+    calories: 73, protein: 0.4, fat: 0.6, hdlFat: 0.4, ldlFat: 0.2, cholesterol: 0, carb: 18, sugar: 15, fiber: 1.8, 
+    sodium: 7, potassium: 48, calcium: 12, iron: 0.3, magnesium: 13, vitaminD: 0, vitaminB: 0.1, folate: 31, collagen: 0 
+  },
+  { 
+    keywords: ["มะม่วงสุก"], name: "มะม่วงสุก (1 ผล / ~100g)", 
+    calories: 60, protein: 0.8, fat: 0.4, hdlFat: 0.3, ldlFat: 0.1, cholesterol: 0, carb: 15, sugar: 14, fiber: 1.6, 
+    sodium: 1, potassium: 168, calcium: 11, iron: 0.2, magnesium: 10, vitaminD: 0, vitaminB: 0.2, folate: 43, collagen: 0 
+  },
+  { 
+    keywords: ["มะม่วงดิบ", "มะม่วง"], name: "มะม่วงดิบ (1 ผล / ~100g)", 
+    calories: 65, protein: 0.5, fat: 0.3, hdlFat: 0.2, ldlFat: 0.1, cholesterol: 0, carb: 16, sugar: 6, fiber: 2.4, 
+    sodium: 2, potassium: 150, calcium: 10, iron: 0.2, magnesium: 9, vitaminD: 0, vitaminB: 0.1, folate: 20, collagen: 0 
+  },
+  { 
+    keywords: ["กล้วยหอม"], name: "กล้วยหอม (1 ลูก / ~100g)", 
+    calories: 89, protein: 1.1, fat: 0.3, hdlFat: 0.2, ldlFat: 0.1, cholesterol: 0, carb: 23, sugar: 12, fiber: 2.6, 
+    sodium: 1, potassium: 358, calcium: 5, iron: 0.3, magnesium: 27, vitaminD: 0, vitaminB: 0.4, folate: 20, collagen: 0 
+  },
+  { 
+    keywords: ["กล้วยน้ำว้า", "กล้วย"], name: "กล้วยน้ำว้า (1 ลูก / ~60g)", 
+    calories: 60, protein: 0.7, fat: 0.2, hdlFat: 0.1, ldlFat: 0.1, cholesterol: 0, carb: 15, sugar: 9, fiber: 1.6, 
+    sodium: 1, potassium: 240, calcium: 6, iron: 0.3, magnesium: 20, vitaminD: 0, vitaminB: 0.3, folate: 15, collagen: 0 
+  },
+  { 
+    keywords: ["แตงโม"], name: "แตงโม (1 ชิ้นใหญ่ / ~100g)", 
+    calories: 30, protein: 0.6, fat: 0.2, hdlFat: 0.1, ldlFat: 0.1, cholesterol: 0, carb: 7.5, sugar: 6.2, fiber: 0.4, 
+    sodium: 1, potassium: 112, calcium: 7, iron: 0.2, magnesium: 10, vitaminD: 0, vitaminB: 0.1, folate: 3, collagen: 0 
+  },
+  { 
+    keywords: ["มะละกอ", "มะละกอสุก"], name: "มะละกอสุก (1 ชิ้น / ~100g)", 
+    calories: 43, protein: 0.5, fat: 0.3, hdlFat: 0.2, ldlFat: 0.1, cholesterol: 0, carb: 11, sugar: 8, fiber: 1.7, 
+    sodium: 8, potassium: 182, calcium: 20, iron: 0.3, magnesium: 21, vitaminD: 0, vitaminB: 0.1, folate: 37, collagen: 0 
+  },
+  { 
+    keywords: ["สับปะรด"], name: "สับปะรด (1 ชิ้น / ~100g)", 
+    calories: 50, protein: 0.5, fat: 0.1, hdlFat: 0.1, ldlFat: 0, cholesterol: 0, carb: 13, sugar: 10, fiber: 1.4, 
+    sodium: 1, potassium: 109, calcium: 13, iron: 0.3, magnesium: 12, vitaminD: 0, vitaminB: 0.1, folate: 18, collagen: 0 
+  },
+  { 
+    keywords: ["ฝรั่ง"], name: "ฝรั่ง (1 ผล / ~100g)", 
+    calories: 68, protein: 2.6, fat: 1.0, hdlFat: 0.7, ldlFat: 0.3, cholesterol: 0, carb: 14, sugar: 9, fiber: 5.4, 
+    sodium: 2, potassium: 417, calcium: 18, iron: 0.3, magnesium: 22, vitaminD: 0, vitaminB: 0.2, folate: 49, collagen: 0 
+  },
+  { 
+    keywords: ["แก้วมังกร"], name: "แก้วมังกร (1 ผล / ~100g)", 
+    calories: 60, protein: 1.2, fat: 0.6, hdlFat: 0.4, ldlFat: 0.2, cholesterol: 0, carb: 13, sugar: 9, fiber: 2.9, 
+    sodium: 3, potassium: 250, calcium: 9, iron: 0.7, magnesium: 18, vitaminD: 0, vitaminB: 0.1, folate: 12, collagen: 0 
+  },
+  { 
+    keywords: ["ส้ม", "ส้มเขียวหวาน"], name: "ส้มเขียวหวาน (1 ผล / ~100g)", 
+    calories: 47, protein: 0.9, fat: 0.1, hdlFat: 0.1, ldlFat: 0, cholesterol: 0, carb: 12, sugar: 9, fiber: 2.4, 
+    sodium: 0, potassium: 181, calcium: 40, iron: 0.1, magnesium: 10, vitaminD: 0, vitaminB: 0.1, folate: 30, collagen: 0 
+  },
+  { 
+    keywords: ["แอปเปิ้ล", "แอปเปิล"], name: "แอปเปิล (1 ผล / ~100g)", 
+    calories: 52, protein: 0.3, fat: 0.2, hdlFat: 0.1, ldlFat: 0.1, cholesterol: 0, carb: 14, sugar: 10, fiber: 2.4, 
+    sodium: 1, potassium: 107, calcium: 6, iron: 0.1, magnesium: 5, vitaminD: 0, vitaminB: 0.1, folate: 3, collagen: 0 
+  },
+  { 
+    keywords: ["องุ่น"], name: "องุ่นสด (1 พวงเล็ก / ~100g)", 
+    calories: 69, protein: 0.7, fat: 0.2, hdlFat: 0.1, ldlFat: 0.1, cholesterol: 0, carb: 18, sugar: 15, fiber: 0.9, 
+    sodium: 2, potassium: 191, calcium: 10, iron: 0.4, magnesium: 7, vitaminD: 0, vitaminB: 0.1, folate: 2, collagen: 0 
+  },
+  { 
+    keywords: ["สตรอว์เบอร์รี", "สตรอเบอรี่"], name: "สตรอว์เบอร์รีสด (~100g)", 
+    calories: 32, protein: 0.7, fat: 0.3, hdlFat: 0.2, ldlFat: 0.1, cholesterol: 0, carb: 7.7, sugar: 4.9, fiber: 2.0, 
+    sodium: 1, potassium: 153, calcium: 16, iron: 0.4, magnesium: 13, vitaminD: 0, vitaminB: 0.1, folate: 24, collagen: 0 
+  },
+  { 
+    keywords: ["บลูเบอร์รี", "บลูเบอร์รี่"], name: "บลูเบอร์รีสด (~100g)", 
+    calories: 57, protein: 0.7, fat: 0.3, hdlFat: 0.2, ldlFat: 0.1, cholesterol: 0, carb: 14, sugar: 10, fiber: 2.4, 
+    sodium: 1, potassium: 77, calcium: 6, iron: 0.3, magnesium: 6, vitaminD: 0, vitaminB: 0.1, folate: 6, collagen: 0 
+  },
+  { 
+    keywords: ["อะโวคาโด", "อโวคาโด"], name: "อะโวคาโด (1/2 ลูก / ~100g)", 
+    calories: 160, protein: 2.0, fat: 15, hdlFat: 13.1, ldlFat: 1.9, cholesterol: 0, carb: 8.5, sugar: 0.7, fiber: 6.7, 
+    sodium: 7, potassium: 485, calcium: 12, iron: 0.6, magnesium: 29, vitaminD: 0, vitaminB: 0.3, folate: 81, collagen: 0 
+  },
+  { 
+    keywords: ["เงาะ"], name: "เงาะสด (4 ลูก / ~100g)", 
+    calories: 75, protein: 0.7, fat: 0.2, hdlFat: 0.1, ldlFat: 0.1, cholesterol: 0, carb: 19, sugar: 15, fiber: 0.9, 
+    sodium: 8, potassium: 140, calcium: 22, iron: 0.3, magnesium: 10, vitaminD: 0, vitaminB: 0.1, folate: 8, collagen: 0 
+  },
+  { 
+    keywords: ["ลำไย"], name: "ลำไยสด (~100g)", 
+    calories: 60, protein: 1.3, fat: 0.1, hdlFat: 0.1, ldlFat: 0, cholesterol: 0, carb: 15, sugar: 14, fiber: 1.1, 
+    sodium: 0, potassium: 266, calcium: 1, iron: 0.1, magnesium: 10, vitaminD: 0, vitaminB: 0.2, folate: 6, collagen: 0 
+  },
+  { 
+    keywords: ["ลิ้นจี่"], name: "ลิ้นจี่สด (~100g)", 
+    calories: 66, protein: 0.8, fat: 0.4, hdlFat: 0.3, ldlFat: 0.1, cholesterol: 0, carb: 16.5, sugar: 15, fiber: 1.3, 
+    sodium: 1, potassium: 171, calcium: 5, iron: 0.3, magnesium: 10, vitaminD: 0, vitaminB: 0.1, folate: 14, collagen: 0 
+  },
+
   // เครื่องดื่ม (Beverages & Soft Drinks)
   { 
     keywords: ["โค้ก", "แป๊ปซี่", "สไปรท์", "น้ำอัดลม"], name: "น้ำอัดลม (โค้ก/แป๊ปซี่ 1 กระป๋อง)", 
@@ -630,7 +732,10 @@ const FOOD_KEYWORDS = [
   "พะแนง", "จืด", "ราเมง", "ซูชิ", "ชานม", "บิงซู", "สลัด", "โซดามะนาว", "เฟรนช์ฟรายส์", "ขาหมู", "หมูแดง", "หมูกรอบ",
   "โค้ก", "แป๊ปซี่", "สไปรท์", "อิตาเลียนโซดา", "สมูทตี้", "ปั่น", "เบียร์", "ไวน์", "เหล้า", "วิสกี้", "โปรตีน", "เชค",
   "เวย์", "โดนัท", "เค้ก", "ไอติม", "ไอศกรีม", "โรตี", "ต๊อกบกกี", "นักเก็ต", "ซาชิมิ", "บิบิมบับ", "ทงคัตสึ", "คัตสึด้ง",
-  "หอย", "ปู", "หมึก", "เป็ด", "แกะ", "ซุป", "แกงอ่อม", "ทาโก้", "มังกร", "ชีส", "ไส้กรอก", "เบคอน", "แฮม", "ปลาทู"
+  "หอย", "ปู", "หมึก", "เป็ด", "แกะ", "ซุป", "แกงอ่อม", "ทาโก้", "มังกร", "ชีส", "ไส้กรอก", "เบคอน", "แฮม", "ปลาทู",
+  "ทุเรียน", "มังคุด", "มะม่วง", "กล้วย", "แตงโม", "มะละกอ", "สับปะรด", "ฝรั่ง", "แก้วมังกร", "ส้ม", "แอปเปิ้ล", "แอปเปิล",
+  "องุ่น", "สตรอว์เบอร์รี", "บลูเบอร์รี", "อะโวคาโด", "เงาะ", "ลำไย", "ลิ้นจี่", "ลองกอง", "ส้มโอ", "ชมพู่", "พุทรา", "มะพร้าว",
+  "กีวี่", "เชอร์รี", "เมลอน", "แคนตาลูป", "พลับ", "มะเฟือง", "ผลไม้"
 ];
 
 const SKIN_TONES = ["#FFDDB8", "#F0B784", "#C6875A", "#8A5A34"];
@@ -940,7 +1045,7 @@ function render(){
     <div class="glass-card">
       <div class="quick-logger-header">
         <div class="quick-logger-title">
-          <span>➕ บันทึกมื้ออาหาร / เครื่องดื่ม</span>
+          <span>➕ บันทึกมื้ออาหาร / เครื่องดื่ม / ผลไม้</span>
         </div>
         <button class="icon-btn" onclick="openConfigModal()" title="ตั้งค่า TDEE">⚙️</button>
       </div>
@@ -948,7 +1053,7 @@ function render(){
       <!-- Camera & Barcode Action Buttons -->
       <div class="ai-scan-btn-group">
         <button onclick="triggerCamera(false)" class="ai-btn" style="background:linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%); color:#fff">
-          📷 ถ่ายรูปอาหาร/เครื่องดื่ม
+          📷 ถ่ายรูปอาหาร/ผลไม้
         </button>
         <button onclick="triggerCamera(true)" class="ai-btn" style="background:linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%); color:#fff">
           🏷️ Scan Barcode
@@ -964,8 +1069,8 @@ function render(){
 
       <!-- Name Input: Enter key triggers calculation -->
       <div class="name-ai-row">
-        <input class="field-input" placeholder="พิมพ์ชื่ออาหารหรือเครื่องดื่ม (กด Enter เพื่อคำนวณได้)" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)" onkeydown="if(event.key==='Enter'){ event.preventDefault(); analyzeMealText(); }"/>
-        <button class="ai-text-btn" onclick="analyzeMealText()" title="พิมพ์ชื่ออาหารหรือเครื่องดื่มแล้วกดปุ่มนี้ (หรือกด Enter) เพื่อคำนวณ">
+        <input class="field-input" placeholder="พิมพ์ชื่ออาหาร, เครื่องดื่ม หรือผลไม้ทุกชนิด (กด Enter ได้)" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)" onkeydown="if(event.key==='Enter'){ event.preventDefault(); analyzeMealText(); }"/>
+        <button class="ai-text-btn" onclick="analyzeMealText()" title="พิมพ์ชื่อแล้วกดปุ่มนี้ (หรือกด Enter) เพื่อคำนวณ">
           ✨ คำนวณ
         </button>
       </div>
@@ -984,7 +1089,7 @@ function render(){
 
       <!-- Prominent 100% Clickable Save Button -->
       <button class="primary-btn" style="opacity:${canSave ? 1 : 0.5}" onclick="submitMeal()" ${canSave ? '' : 'disabled'}>
-        บันทึกรายการมื้ออาหาร / เครื่องดื่ม
+        บันทึกรายการมื้ออาหาร / ผลไม้
       </button>
     </div>
 
@@ -1186,7 +1291,7 @@ function computeNutrition(inputName){
     item.keywords.some(k => cleanName.includes(k.toLowerCase()) || k.toLowerCase().includes(cleanName))
   );
 
-  // 2. Strict Check: Does text contain recognized food/beverage term?
+  // 2. Strict Check: Does text contain recognized food/beverage/fruit term?
   const isRecognizedFood = matched || FOOD_KEYWORDS.some(k => cleanName.includes(k));
   if(!isRecognizedFood){
     return null;
@@ -1203,13 +1308,17 @@ function computeNutrition(inputName){
     return m;
   }
 
-  // 3. Universal Scientific Breakdown for Any Food/Drink
+  // 3. Universal Scientific Breakdown for Any Food/Drink/Fruit
+  const isFruit = ["ทุเรียน", "มังคุด", "มะม่วง", "กล้วย", "แตงโม", "มะละกอ", "สับปะรด", "ฝรั่ง", "แก้วมังกร", "ส้ม", "แอปเปิ้ล", "แอปเปิล", "องุ่น", "สตรอว์เบอร์รี", "บลูเบอร์รี", "อะโวคาโด", "เงาะ", "ลำไย", "ลิ้นจี่", "ลองกอง", "ส้มโอ", "ชมพู่", "พุทรา", "มะพร้าว", "กีวี่", "เชอร์รี", "เมลอน", "แคนตาลูป", "พลับ", "ผลไม้"].some(k => cleanName.includes(k));
   const isDrink = ["ชา", "กาแฟ", "นม", "น้ำ", "โซดา", "ปั่น", "สมูทตี้", "เบียร์", "ไวน์", "เหล้า", "วิสกี้", "ค็อกเทล", "มอคค่า", "ลาเต้", "เอสเพรสโซ", "โกโก้", "จูซ", "juice", "coffee", "tea", "latte"].some(k => cleanName.includes(k));
 
   let calories = 0, protein = 0, fat = 0, hdlFat = 0, ldlFat = 0, cholesterol = 0, carb = 0, sugar = 0, fiber = 0, sodium = 0, potassium = 0, calcium = 0, iron = 0, magnesium = 0, vitaminD = 0, vitaminB = 0, folate = 0, collagen = 0;
 
-  if(isDrink){
-    // Pure liquid profile: 0g fat/protein unless milk/shake added
+  if(isFruit){
+    // High Potassium, High Vitamin C, Natural Fructose, High Fiber, 0 Cholesterol
+    calories = 65; protein = 0.8; fat = 0.3; hdlFat = 0.2; ldlFat = 0.1; cholesterol = 0; carb = 16; sugar = 12; fiber = 2.5; sodium = 2; potassium = 220; calcium = 12; iron = 0.3; magnesium = 15; vitaminD = 0; vitaminB = 0.2; folate = 25; collagen = 0;
+  } else if(isDrink){
+    // Pure liquid profile
     if(cleanName.includes("โค้ก") || cleanName.includes("แป๊ปซี่") || cleanName.includes("สไปรท์") || cleanName.includes("น้ำอัดลม")){
       return { calories: 140, protein: 0, fat: 0, hdlFat: 0, ldlFat: 0, cholesterol: 0, carb: 36, sugar: 35, fiber: 0, sodium: 35, potassium: 10, calcium: 2, iron: 0.1, magnesium: 1, vitaminD: 0, vitaminB: 0, folate: 0, collagen: 0 };
     }
@@ -1269,7 +1378,7 @@ async function analyzeMealText(){
       form: { ...state.form, calories:"", protein:"", fat:"", carb:"", sodium:"" },
       scanning: false,
       scanSuccess: "",
-      scanError: `⚠️ ไม่พบเมนู "${inputName}" กรุณาระบุชื่ออาหาร/เครื่องดื่ม หรือกรอกตัวเลขแคลอรี่เองได้เลย`
+      scanError: `⚠️ ไม่พบเมนู "${inputName}" กรุณาระบุชื่ออาหาร/เครื่องดื่ม/ผลไม้ หรือกรอกตัวเลขแคลอรี่เองได้เลย`
     });
     return;
   }
