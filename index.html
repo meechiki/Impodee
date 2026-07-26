@@ -401,8 +401,8 @@
     -webkit-backdrop-filter: blur(8px);
     z-index: 1000;
     display: flex;
-    align-items: center; /* Perfect Vertical Centering */
-    justify-content: center; /* Perfect Horizontal Centering */
+    align-items: center;
+    justify-content: center;
     padding: 16px;
     opacity: 0;
     pointer-events: none;
@@ -775,7 +775,7 @@ function render(){
         </div>
         <div style="display:flex; align-items:center; gap:8px">
           ${!hasKey ? `<span style="font-size:11px; color:var(--gold-deep); background:var(--gold-light); padding:3px 8px; border-radius:999px; font-weight:600">ใส่ API Key เพื่อเปิดใช้ AI</span>` : ""}
-          <button class="icon-btn" onclick="setState({showConfigModal:true})" title="ตั้งค่า TDEE & API Key">⚙️</button>
+          <button class="icon-btn" onclick="openConfigModal()" title="ตั้งค่า TDEE & API Key">⚙️</button>
         </div>
       </div>
 
@@ -830,7 +830,7 @@ function render(){
         : state.meals.map(mealRowHTML).join("")}
     </div>
 
-    <!-- Centered Modal Sheet for Config/Profile (Perfectly Eye-Level Centered) -->
+    <!-- Centered Modal Sheet for Config/Profile -->
     <div class="modal-overlay ${state.showConfigModal ? 'open' : ''}" onclick="if(event.target===this) setState({showConfigModal:false})">
       <div class="modal-sheet">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
@@ -841,20 +841,20 @@ function render(){
         <div style="margin-bottom:14px">
           <label style="font-size:12px; font-weight:600; color:var(--ink-muted); display:block; margin-bottom:4px">เพศ</label>
           <div class="segmented-control">
-            <button class="segmented-btn ${state.profileDraft.gender==='male'?'active':''}" onclick="setDraft('gender','male')">👨 ชาย</button>
-            <button class="segmented-btn ${state.profileDraft.gender==='female'?'active':''}" onclick="setDraft('gender','female')">👩 หญิง</button>
+            <button class="segmented-btn ${state.profileDraft.gender==='male'?'active':''}" onclick="setDraft('gender','male', true)">👨 ชาย</button>
+            <button class="segmented-btn ${state.profileDraft.gender==='female'?'active':''}" onclick="setDraft('gender','female', true)">👩 หญิง</button>
           </div>
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:12px">
-          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">อายุ (ปี)</label><input class="field-input" type="number" value="${state.profileDraft.age}" oninput="setDraft('age', this.value)"/></div>
-          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">น้ำหนัก (kg)</label><input class="field-input" type="number" value="${state.profileDraft.weight}" oninput="setDraft('weight', this.value)"/></div>
-          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">ส่วนสูง (cm)</label><input class="field-input" type="number" value="${state.profileDraft.height}" oninput="setDraft('height', this.value)"/></div>
+          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">อายุ (ปี)</label><input class="field-input" type="number" value="${escapeAttr(state.profileDraft.age)}" oninput="setDraft('age', this.value, false)"/></div>
+          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">น้ำหนัก (kg)</label><input class="field-input" type="number" value="${escapeAttr(state.profileDraft.weight)}" oninput="setDraft('weight', this.value, false)"/></div>
+          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">ส่วนสูง (cm)</label><input class="field-input" type="number" value="${escapeAttr(state.profileDraft.height)}" oninput="setDraft('height', this.value, false)"/></div>
         </div>
 
         <div style="margin-bottom:12px">
           <label style="font-size:12px; font-weight:600; color:var(--ink-muted); display:block; margin-bottom:4px">ระดับกิจกรรม</label>
-          <select class="field-input" onchange="setDraft('activity', this.value)">
+          <select class="field-input" onchange="setDraft('activity', this.value, true)">
             ${ACTIVITY_LEVELS.map(a => `<option value="${a.id}" ${state.profileDraft.activity===a.id?'selected':''}>${a.label}</option>`).join("")}
           </select>
         </div>
@@ -862,7 +862,7 @@ function render(){
         <div style="margin-bottom:16px">
           <label style="font-size:12px; font-weight:600; color:var(--ink-muted); display:block; margin-bottom:4px">เป้าหมายน้ำหนัก</label>
           <div class="segmented-control">
-            ${GOALS.map(g => `<button class="segmented-btn ${state.profileDraft.goal===g.id?'active':''}" onclick="setDraft('goal','${g.id}')">${g.label}</button>`).join("")}
+            ${GOALS.map(g => `<button class="segmented-btn ${state.profileDraft.goal===g.id?'active':''}" onclick="setDraft('goal','${g.id}', true)">${g.label}</button>`).join("")}
           </div>
         </div>
 
@@ -889,7 +889,7 @@ function mealRowHTML(m){
   </div>`;
 }
 
-function updateForm(key, value){ state.form = { ...state.form, [key]: value }; }
+function updateForm(key, value){ state.form[key] = value; }
 
 function submitMeal(){
   const f = state.form;
@@ -1031,7 +1031,16 @@ async function handleImageSelected(inputEl, isBarcode){
   }
 }
 
-function setDraft(key, val){ state.profileDraft = { ...state.profileDraft, [key]: val }; render(); }
+function openConfigModal(){
+  state.profileDraft = { ...state.profile };
+  setState({ showConfigModal: true });
+}
+
+function setDraft(key, val, shouldRender = false){
+  state.profileDraft[key] = val;
+  if(shouldRender) render();
+}
+
 function saveProfile(){
   saveJSON(LS_KEYS.profile, state.profileDraft);
   setState({ profile: { ...state.profileDraft }, showConfigModal: false });
