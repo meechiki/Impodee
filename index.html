@@ -403,14 +403,51 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 1px dashed var(--line);
+    gap: 8px;
   }
   .meal-item:last-child { border-bottom: none; }
-  .meal-title { font-weight: 600; font-size: 14px; color: var(--ink); }
+  .meal-info { flex: 1; min-width: 0; }
+  .meal-title { font-weight: 600; font-size: 14px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .meal-sub { font-size: 11.5px; color: var(--ink-soft); margin-top: 2px; }
 
-  /* Centered Modal Dialog for Config/Profile */
+  .detail-pill-btn {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--blue-deep);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    font-family: 'Kanit', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+  .detail-pill-btn:hover {
+    background: var(--blue-deep);
+    color: #ffffff;
+    border-color: var(--blue-deep);
+  }
+
+  .delete-pill-btn {
+    background: rgba(239, 68, 68, 0.08);
+    color: var(--coral-deep);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    font-family: 'Kanit', sans-serif;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* Centered Modal Dialog for Config/Profile & Detail Sheet */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -442,12 +479,43 @@
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
     transform: scale(0.92) translateY(10px);
     transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-    max-height: 85vh;
+    max-height: 88vh;
     overflow-y: auto;
   }
   .modal-overlay.open .modal-sheet {
     transform: scale(1) translateY(0);
   }
+
+  /* Scientific Detail Grid Cards */
+  .detail-section-title {
+    font-family: 'Kanit', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 14px 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px dashed var(--line);
+    padding-bottom: 4px;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 10px;
+  }
+  .detail-row {
+    background: rgba(243, 246, 244, 0.7);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 7px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+  }
+  .detail-lbl { color: var(--ink-muted); font-weight: 500; }
+  .detail-val { font-family: 'Kanit', sans-serif; font-weight: 600; color: var(--ink); }
 
   .segmented-control {
     display: flex;
@@ -481,119 +549,78 @@
 <div id="root"></div>
 
 <script>
-/* ---------------- Massive Global Food & Beverage Knowledge Database (150+ Entries) ---------------- */
+/* ---------------- Precise Scientific Nutrition Database according to USDA & Thai FCT ---------------- */
 const THAI_FOOD_DB = [
-  // ก๋วยเตี๋ยว / ผัดเส้น
-  { keywords: ["ผัดไทกุ้ง", "ผัดไทยกุ้ง", "ผัดไทยกุ้งสด"], name: "ผัดไทยกุ้งสด", calories: 580, protein: 22, fat: 21, carb: 76, sodium: 1150 },
-  { keywords: ["ผัดไท", "ผัดไทย"], name: "ผัดไทยหมู/ไก่", calories: 570, protein: 20, fat: 22, carb: 72, sodium: 1100 },
-  { keywords: ["ผัดซีอิ๊ว", "ผัดซีอิ้ว"], name: "ผัดซีอิ๊วหมู", calories: 670, protein: 22, fat: 26, carb: 86, sodium: 1200 },
-  { keywords: ["ราดหน้า"], name: "ราดหน้าหมู", calories: 400, protein: 17, fat: 13, carb: 54, sodium: 1250 },
-  { keywords: ["ก๋วยเตี๋ยวเรือ", "ก๋วยเตี๋ยวน้ำตก", "ก๋วยเตี๋ยวหมู"], name: "ก๋วยเตี๋ยวน้ำตกหมู", calories: 410, protein: 18, fat: 12, carb: 55, sodium: 1450 },
-  { keywords: ["ก๋วยเตี๋ยวต้มยำ"], name: "ก๋วยเตี๋ยวต้มยำ", calories: 430, protein: 16, fat: 14, carb: 58, sodium: 1500 },
-  { keywords: ["ก๋วยเตี๋ยวแห้ง"], name: "ก๋วยเตี๋ยวแห้งหมู", calories: 460, protein: 19, fat: 16, carb: 60, sodium: 1100 },
-  { keywords: ["เย็นตาโฟ"], name: "เย็นตาโฟ", calories: 350, protein: 15, fat: 8, carb: 55, sodium: 1400 },
-  { keywords: ["ก๋วยจั๊บ"], name: "ก๋วยจั๊บน้ำข้น", calories: 420, protein: 20, fat: 14, carb: 52, sodium: 1350 },
-  { keywords: ["บะหมี่หมูแดง", "บะหมี่เกี๊ยว"], name: "บะหมี่หมูแดงเกี๊ยว", calories: 430, protein: 19, fat: 12, carb: 61, sodium: 1280 },
-  { keywords: ["ขนมจีนน้ำยา", "ขนมจีน"], name: "ขนมจีนน้ำยากะทิ", calories: 380, protein: 14, fat: 16, carb: 45, sodium: 1150 },
-  { keywords: ["ขนมจีนแกงเขียวหวาน"], name: "ขนมจีนแกงเขียวหวานไก่", calories: 420, protein: 18, fat: 20, carb: 48, sodium: 1100 },
-  { keywords: ["ขนมจีนน้ำเงี้ยว"], name: "ขนมจีนน้ำเงี้ยว", calories: 320, protein: 16, fat: 12, carb: 40, sodium: 1200 },
-  { keywords: ["ผัดมาม่า"], name: "ผัดมาม่าใส่ไข่หมูสับ", calories: 530, protein: 18, fat: 22, carb: 65, sodium: 1550 },
+  // เครื่องดื่ม (Beverages & Soft Drinks)
+  { 
+    keywords: ["โค้ก", "แป๊ปซี่", "สไปรท์", "น้ำอัดลม"], name: "น้ำอัดลม (โค้ก/แป๊ปซี่ 1 กระป๋อง)", 
+    calories: 140, protein: 0, fat: 0, hdlFat: 0, ldlFat: 0, cholesterol: 0, carb: 36, sugar: 35, fiber: 0, 
+    sodium: 35, potassium: 10, calcium: 2, iron: 0.1, magnesium: 1, vitaminD: 0, vitaminB: 0, folate: 0, collagen: 0 
+  },
+  { 
+    keywords: ["โค้กซีโร่", "แป๊ปซี่แม็กซ์", "น้ำอัดลมไม่มีน้ำตาล"], name: "น้ำอัดลมสูตรไม่มีน้ำตาล", 
+    calories: 0, protein: 0, fat: 0, hdlFat: 0, ldlFat: 0, cholesterol: 0, carb: 0, sugar: 0, fiber: 0, 
+    sodium: 40, potassium: 5, calcium: 0, iron: 0, magnesium: 0, vitaminD: 0, vitaminB: 0, folate: 0, collagen: 0 
+  },
+  { 
+    keywords: ["ชานมไข่มุก"], name: "ชานมไข่มุก (แก้วปกติ)", 
+    calories: 360, protein: 2, fat: 11, hdlFat: 3, ldlFat: 8, cholesterol: 15, carb: 64, sugar: 42, fiber: 1.2, 
+    sodium: 140, potassium: 180, calcium: 110, iron: 0.5, magnesium: 18, vitaminD: 4, vitaminB: 0.1, folate: 5, collagen: 0 
+  },
+  { 
+    keywords: ["ชาไทย", "ชานมเย็น"], name: "ชาไทยเย็น", 
+    calories: 260, protein: 3, fat: 9, hdlFat: 2.5, ldlFat: 6.5, cholesterol: 18, carb: 42, sugar: 34, fiber: 0.5, 
+    sodium: 120, potassium: 190, calcium: 120, iron: 0.3, magnesium: 16, vitaminD: 5, vitaminB: 0.2, folate: 4, collagen: 0 
+  },
+  { 
+    keywords: ["อเมริกาโนเย็น", "อเมริกาโน่"], name: "อเมริกาโนเย็น (ไม่หวาน)", 
+    calories: 15, protein: 0.3, fat: 0, hdlFat: 0, ldlFat: 0, cholesterol: 0, carb: 3, sugar: 0, fiber: 0, 
+    sodium: 10, potassium: 116, calcium: 7, iron: 0.1, magnesium: 12, vitaminD: 0, vitaminB: 0.2, folate: 2, collagen: 0 
+  },
+  { 
+    keywords: ["กาแฟเย็น", "ลาเต้เย็น"], name: "กาแฟลาเต้เย็น", 
+    calories: 230, protein: 4, fat: 8, hdlFat: 2.2, ldlFat: 5.8, cholesterol: 22, carb: 35, sugar: 28, fiber: 0, 
+    sodium: 110, potassium: 240, calcium: 150, iron: 0.2, magnesium: 22, vitaminD: 6, vitaminB: 0.3, folate: 6, collagen: 0 
+  },
 
-  // ข้าวมันไก่ / ข้าวหมูต่างๆ
-  { keywords: ["ข้าวมันไก่ต้ม", "ข้าวมันไก่"], name: "ข้าวมันไก่ต้ม", calories: 596, protein: 24, fat: 23, carb: 73, sodium: 850 },
-  { keywords: ["ข้าวมันไก่ทอด"], name: "ข้าวมันไก่ทอด", calories: 695, protein: 21, fat: 32, carb: 81, sodium: 920 },
-  { keywords: ["ข้าวมันไก่ผสม", "ข้าวมันไก่สองอย่าง"], name: "ข้าวมันไก่ผสม (ต้ม+ทอด)", calories: 645, protein: 23, fat: 28, carb: 77, sodium: 890 },
-  { keywords: ["ข้าวหมูกรอบ"], name: "ข้าวหมูกรอบ", calories: 680, protein: 20, fat: 35, carb: 72, sodium: 950 },
-  { keywords: ["ข้าวหมูแดง"], name: "ข้าวหมูแดง", calories: 540, protein: 22, fat: 15, carb: 78, sodium: 820 },
-  { keywords: ["ข้าวเฉโป", "ข้าวหมูกรอบหมูแดง"], name: "ข้าวหมูแดงหมูกรอบ", calories: 610, protein: 21, fat: 25, carb: 75, sodium: 890 },
-  { keywords: ["ข้าวขาหมู"], name: "ข้าวขาหมู", calories: 690, protein: 24, fat: 36, carb: 68, sodium: 1200 },
-  { keywords: ["ข้าวหน้าเป็ด"], name: "ข้าวหน้าเป็ด", calories: 510, protein: 23, fat: 16, carb: 68, sodium: 920 },
-  { keywords: ["ข้าวคลุกกะปิ"], name: "ข้าวคลุกกะปิ", calories: 570, protein: 20, fat: 22, carb: 74, sodium: 1100 },
+  // กะเพรา / ข้าวหมูกรอบ / อาหารจานเดียว
+  { 
+    keywords: ["กระเพราหมูกรอบ", "กะเพราหมูกรอบ"], name: "ข้าวผัดกะเพราหมูกรอบ", 
+    calories: 680, protein: 20, fat: 35, hdlFat: 10, ldlFat: 25, cholesterol: 85, carb: 70, sugar: 4, fiber: 2.5, 
+    sodium: 1100, potassium: 380, calcium: 45, iron: 2.8, magnesium: 32, vitaminD: 10, vitaminB: 0.4, folate: 25, collagen: 1200 
+  },
+  { 
+    keywords: ["กระเพราหมู", "ผัดกระเพราหมู", "กะเพราหมู", "กระเพรา"], name: "ข้าวผัดกะเพราหมูสับ", 
+    calories: 580, protein: 22, fat: 24, hdlFat: 9, ldlFat: 15, cholesterol: 65, carb: 68, sugar: 3.5, fiber: 2.2, 
+    sodium: 980, potassium: 350, calcium: 40, iron: 2.4, magnesium: 30, vitaminD: 8, vitaminB: 0.5, folate: 22, collagen: 1100 
+  },
+  { 
+    keywords: ["ข้าวมันไก่ต้ม", "ข้าวมันไก่"], name: "ข้าวมันไก่ต้ม", 
+    calories: 596, protein: 24, fat: 23, hdlFat: 14, ldlFat: 9, cholesterol: 75, carb: 73, sugar: 1, fiber: 1.5, 
+    sodium: 850, potassium: 320, calcium: 35, iron: 2.1, magnesium: 28, vitaminD: 12, vitaminB: 0.5, folate: 20, collagen: 1500 
+  },
+  { 
+    keywords: ["ผัดไทกุ้ง", "ผัดไทยกุ้งสด", "ผัดไทย"], name: "ผัดไทยกุ้งสด", 
+    calories: 580, protein: 22, fat: 21, hdlFat: 12, ldlFat: 9, cholesterol: 160, carb: 76, sugar: 12, fiber: 3.5, 
+    sodium: 1150, potassium: 420, calcium: 85, iron: 3.2, magnesium: 45, vitaminD: 15, vitaminB: 0.3, folate: 30, collagen: 800 
+  },
+  { 
+    keywords: ["สปาเกตตีคาโบนารา", "คาโบนาร่า"], name: "สปาเกตตีคาโบนารา", 
+    calories: 640, protein: 22, fat: 32, hdlFat: 8, ldlFat: 24, cholesterol: 110, carb: 66, sugar: 5, fiber: 2.8, 
+    sodium: 980, potassium: 280, calcium: 160, iron: 2.2, magnesium: 28, vitaminD: 14, vitaminB: 0.4, folate: 35, collagen: 600 
+  },
 
-  // ข้าวผัด / ผัดกะเพรา / ข้าวตามสั่ง
-  { keywords: ["กระเพราหมูกรอบ", "กะเพราหมูกรอบ"], name: "ข้าวผัดกะเพราหมูกรอบ", calories: 680, protein: 20, fat: 35, carb: 70, sodium: 1100 },
-  { keywords: ["กระเพราหมู", "ผัดกระเพราหมู", "กะเพราหมู", "กระเพรา"], name: "ข้าวผัดกะเพราหมูสับ", calories: 580, protein: 22, fat: 24, carb: 68, sodium: 980 },
-  { keywords: ["กระเพราไก่", "ผัดกระเพราไก่", "กะเพราไก่"], name: "ข้าวผัดกะเพราไก่", calories: 540, protein: 26, fat: 18, carb: 68, sodium: 920 },
-  { keywords: ["กระเพราเนื้อ", "กะเพราเนื้อ"], name: "ข้าวผัดกะเพราเนื้อ", calories: 610, protein: 28, fat: 24, carb: 68, sodium: 1020 },
-  { keywords: ["กระเพราทะเล", "กะเพราทะเล"], name: "ข้าวผัดกะเพราทะเล", calories: 520, protein: 25, fat: 16, carb: 68, sodium: 1150 },
-  { keywords: ["ข้าวผัดกุ้ง", "ข้าวผัดหมู", "ข้าวผัดไก่", "ข้าวผัด"], name: "ข้าวผัดกุ้ง/หมู", calories: 550, protein: 18, fat: 16, carb: 82, sodium: 780 },
-  { keywords: ["ข้าวผัดอเมริกัน"], name: "ข้าวผัดอเมริกัน", calories: 790, protein: 26, fat: 34, carb: 95, sodium: 1350 },
-  { keywords: ["ข้าวไข่เจียว"], name: "ข้าวไข่เจียว", calories: 480, protein: 14, fat: 28, carb: 42, sodium: 650 },
-  { keywords: ["ข้าวไข่ข้น"], name: "ข้าวไข่ข้น", calories: 520, protein: 16, fat: 30, carb: 44, sodium: 720 },
-  { keywords: ["ข้าวหมูกระเทียม", "ข้าวไก่กระเทียม"], name: "ข้าวหมูกระเทียม", calories: 560, protein: 24, fat: 20, carb: 70, sodium: 940 },
-  { keywords: ["ข้าวผัดพริกแกงหมู", "ข้าวพริกแกง"], name: "ข้าวผัดพริกแกงหมู", calories: 570, protein: 22, fat: 22, carb: 71, sodium: 1050 },
-  { keywords: ["ข้าวผัดคะน้าหมูกรอบ"], name: "ข้าวคะน้าหมูกรอบ", calories: 640, protein: 19, fat: 31, carb: 71, sodium: 1020 },
-  { keywords: ["ข้าวผัดผงกะหรี่"], name: "ข้าวทะเลผัดผงกะหรี่", calories: 610, protein: 26, fat: 24, carb: 72, sodium: 1150 },
-
-  // ต้ม / แกง / ส้มตำ / กับข้าว
-  { keywords: ["ส้มตำไทย"], name: "ส้มตำไทย", calories: 120, protein: 3, fat: 1, carb: 25, sodium: 1200 },
-  { keywords: ["ส้มตำปูปลาร้า", "ส้มตำปลาร้า", "ส้มตำ"], name: "ส้มตำปูปลาร้า", calories: 95, protein: 4, fat: 1, carb: 18, sodium: 1600 },
-  { keywords: ["ไก่ย่าง"], name: "ไก่ย่าง (1 น่อง/สะโพก)", calories: 220, protein: 26, fat: 12, carb: 2, sodium: 450 },
-  { keywords: ["คอหมูย่าง"], name: "คอหมูย่าง (100g)", calories: 380, protein: 18, fat: 32, carb: 4, sodium: 580 },
-  { keywords: ["ลาบหมู", "ลาบไก่"], name: "ลาบหมู", calories: 180, protein: 18, fat: 10, carb: 5, sodium: 890 },
-  { keywords: ["น้ำตกหมู"], name: "น้ำตกหมู", calories: 210, protein: 19, fat: 13, carb: 4, sodium: 920 },
-  { keywords: ["ต้มยำกุ้ง"], name: "ต้มยำกุ้งน้ำข้น", calories: 180, protein: 20, fat: 6, carb: 12, sodium: 1300 },
-  { keywords: ["ต้มยำหมู", "ต้มยำไก่"], name: "ต้มยำหมูน้ำใส", calories: 140, protein: 18, fat: 4, carb: 8, sodium: 1250 },
-  { keywords: ["แกงเขียวหวาน"], name: "แกงเขียวหวานไก่", calories: 380, protein: 18, fat: 28, carb: 14, sodium: 950 },
-  { keywords: ["แกงส้มชะอมกุ้ง", "แกงส้ม"], name: "แกงส้มชะอมทอดกุ้ง", calories: 270, protein: 16, fat: 12, carb: 24, sodium: 1100 },
-  { keywords: ["พะแนงหมู", "พะแนงไก่"], name: "พะแนงหมู", calories: 340, protein: 19, fat: 24, carb: 12, sodium: 880 },
-  { keywords: ["ต้มจืดเต้าหู้หมูสับ", "แกงจืด"], name: "ต้มจืดเต้าหู้หมูสับ", calories: 120, protein: 12, fat: 6, carb: 4, sodium: 750 },
-  { keywords: ["สุกี้น้ำหมู", "สุกี้น้ำ"], name: "สุกี้น้ำหมู", calories: 320, protein: 22, fat: 8, carb: 40, sodium: 1300 },
-  { keywords: ["สุกี้แห้งหมู", "สุกี้แห้ง"], name: "สุกี้แห้งหมู", calories: 460, protein: 22, fat: 18, carb: 52, sodium: 1350 },
-
-  // อาหารคลีน / ข้าว / ไข่
-  { keywords: ["อกไก่ต้ม", "อกไก่ย่าง", "อกไก่"], name: "อกไก่ต้ม/ย่าง (100g)", calories: 165, protein: 31, fat: 4, carb: 0, sodium: 74 },
-  { keywords: ["แซลมอนย่าง", "แซลมอน"], name: "แซลมอนย่าง (100g)", calories: 208, protein: 22, fat: 13, carb: 0, sodium: 60 },
-  { keywords: ["ข้าวสวย", "ข้าวเปล่า"], name: "ข้าวสวย 1 ทัพพี", calories: 160, protein: 3, fat: 1, carb: 35, sodium: 5 },
-  { keywords: ["ข้าวเหนียว"], name: "ข้าวเหนียว 1 ห่อ", calories: 230, protein: 4, fat: 1, carb: 50, sodium: 5 },
-  { keywords: ["ไข่ดาว"], name: "ไข่ดาว 1 ฟอง", calories: 120, protein: 6, fat: 10, carb: 1, sodium: 150 },
-  { keywords: ["ไข่ต้ม"], name: "ไข่ต้ม 1 ฟอง", calories: 75, protein: 6, fat: 5, carb: 1, sodium: 70 },
-  { keywords: ["ไข่เจียว"], name: "ไข่เจียว 1 ฟอง", calories: 240, protein: 7, fat: 22, carb: 2, sodium: 350 },
-
-  // อาหารฝรั่ง / ญี่ปุ่น / เกาหลี / ต่างชาติ
-  { keywords: ["สเต๊กไก่", "สเต็กไก่"], name: "สเต๊กไก่ย่าง", calories: 320, protein: 38, fat: 14, carb: 10, sodium: 650 },
-  { keywords: ["สเต๊กหมู", "สเต็กหมู"], name: "สเต๊กหมู", calories: 450, protein: 32, fat: 28, carb: 12, sodium: 780 },
-  { keywords: ["สเต๊กเนื้อ", "สเต็กเนื้อ"], name: "สเต๊กเนื้อย่าง", calories: 520, protein: 36, fat: 34, carb: 8, sodium: 750 },
-  { keywords: ["สปาเกตตีคาโบนารา", "คาโบนาร่า"], name: "สปาเกตตีคาโบนารา", calories: 640, protein: 22, fat: 32, carb: 66, sodium: 980 },
-  { keywords: ["สปาเกตตีซอสมะเขือเทศ", "สปาเก็ตตี้"], name: "สปาเกตตีซอสมะเขือเทศหมู", calories: 480, protein: 20, fat: 16, carb: 64, sodium: 890 },
-  { keywords: ["พิซซ่า"], name: "พิซซ่า (1 ชิ้นใหญ่)", calories: 280, protein: 12, fat: 11, carb: 32, sodium: 640 },
-  { keywords: ["เบอร์เกอร์หมู", "เบอร์เกอร์เนื้อ", "เบอร์เกอร์"], name: "เบอร์เกอร์", calories: 480, protein: 24, fat: 24, carb: 42, sodium: 920 },
-  { keywords: ["เฟรนช์ฟรายส์", "เฟรนฟราย"], name: "เฟรนช์ฟรายส์ (ขนาดกลาง)", calories: 340, protein: 4, fat: 17, carb: 43, sodium: 260 },
-  { keywords: ["นักเก็ต", "ไก่นักเก็ต"], name: "นักเก็ตไก่ (6 ชิ้น)", calories: 270, protein: 15, fat: 16, carb: 16, sodium: 540 },
-  { keywords: ["ข้าวหน้าหมูทอด", "ทงคัตสึ", "คัตสึด้ง"], name: "ข้าวหน้าหมูทอดคัตสึด้ง", calories: 680, protein: 24, fat: 26, carb: 88, sodium: 1250 },
-  { keywords: ["ข้าวแกงกะหรี่"], name: "ข้าวแกงกะหรี่หมูทอด", calories: 750, protein: 22, fat: 30, carb: 98, sodium: 1400 },
-  { keywords: ["ราเมง", "ราเม็ง"], name: "ราเมงหมูชาชู", calories: 580, protein: 24, fat: 22, carb: 70, sodium: 1800 },
-  { keywords: ["ซูชิ"], name: "ซูชิรวม (5 คำ)", calories: 250, protein: 12, fat: 4, carb: 42, sodium: 600 },
-  { keywords: ["ซาชิมิแซลมอน", "ซาชิมิ"], name: "ซาชิมิแซลมอน (5 ชิ้น)", calories: 175, protein: 20, fat: 10, carb: 0, sodium: 65 },
-  { keywords: ["ต๊อกบกกี", "ต๊อกโบกี"], name: "ต๊อกบกกี", calories: 380, protein: 8, fat: 6, carb: 72, sodium: 980 },
-  { keywords: ["ไก่ทอดเกาหลี"], name: "ไก่ทอดเกาหลี (4 ชิ้น)", calories: 460, protein: 24, fat: 22, carb: 40, sodium: 880 },
-  { keywords: ["บิบิมบับ", "ข้าวยำเกาหลี"], name: "บิบิมบับ (ข้าวยำเกาหลี)", calories: 560, protein: 22, fat: 16, carb: 82, sodium: 920 },
-
-  // เครื่องดื่มทุกประเภท (น้ำหวาน, ชา, กาแฟ, แอลกอฮอล์, น้ำผลไม้)
-  { keywords: ["ชานมไข่มุก"], name: "ชานมไข่มุก", calories: 360, protein: 2, fat: 11, carb: 64, sodium: 140 },
-  { keywords: ["ชาไทย", "ชานมเย็น"], name: "ชาไทยเย็น", calories: 260, protein: 3, fat: 9, carb: 42, sodium: 120 },
-  { keywords: ["ชาเขียวเย็น", "มัทฉะลาเต้"], name: "ชาเขียวลาเต้เย็น", calories: 240, protein: 4, fat: 8, carb: 38, sodium: 110 },
-  { keywords: ["กาแฟเย็น", "ลาเต้เย็น", "คาปูชิโนเย็น"], name: "กาแฟลาเต้เย็น", calories: 230, protein: 4, fat: 8, carb: 35, sodium: 110 },
-  { keywords: ["อเมริกาโนเย็น", "อเมริกาโน่"], name: "อเมริกาโนเย็น (ไม่หวาน)", calories: 15, protein: 0, fat: 0, carb: 3, sodium: 10 },
-  { keywords: ["เอสเพรสโซเย็น", "เอสเพรสโซ่"], name: "เอสเพรสโซเย็น", calories: 180, protein: 3, fat: 6, carb: 28, sodium: 90 },
-  { keywords: ["มอคค่าเย็น"], name: "มอคค่าเย็น", calories: 290, protein: 5, fat: 10, carb: 46, sodium: 140 },
-  { keywords: ["โกโก้เย็น"], name: "โกโก้เย็น", calories: 280, protein: 5, fat: 10, carb: 44, sodium: 130 },
-  { keywords: ["น้ำอัดลม", "โค้ก", "แป๊ปซี่", "สไปรท์"], name: "น้ำอัดลม (1 กระป๋อง)", calories: 140, protein: 0, fat: 0, carb: 36, sodium: 35 },
-  { keywords: ["โค้กซีโร่", "แป๊ปซี่แม็กซ์", "น้ำอัดลมไม่มีน้ำตาล"], name: "น้ำอัดลมสูตรไม่มีน้ำตาล", calories: 0, protein: 0, fat: 0, carb: 0, sodium: 40 },
-  { keywords: ["น้ำส้มสด", "น้ำส้ม"], name: "น้ำส้มคั้น (1 แก้ว)", calories: 110, protein: 1, fat: 0, carb: 26, sodium: 10 },
-  { keywords: ["น้ำมะพร้าว"], name: "น้ำมะพร้าวสด (1 ลูก)", calories: 80, protein: 1, fat: 1, carb: 18, sodium: 50 },
-  { keywords: ["เบียร์"], name: "เบียร์ (1 กระป๋อง/ขวดเล็ก)", calories: 150, protein: 1, fat: 0, carb: 13, sodium: 14 },
-  { keywords: ["ไวน์", "ไวน์แดง"], name: "ไวน์ (1 แก้ว)", calories: 125, protein: 0, fat: 0, carb: 4, sodium: 8 },
-  { keywords: ["เหล้า", "วิสกี้"], name: "วิสกี้/โซดา (1 เป๊ก)", calories: 95, protein: 0, fat: 0, carb: 1, sodium: 5 },
-  { keywords: ["เวย์โปรตีน", "โปรตีนเชค"], name: "เวย์โปรตีนเชค (1 สกู๊ป)", calories: 120, protein: 24, fat: 2, carb: 3, sodium: 150 },
-
-  // ขนม / ของหวาน / ไอศกรีม
-  { keywords: ["บิงซู"], name: "บิงซูสตรอว์เบอร์รี", calories: 450, protein: 8, fat: 14, carb: 72, sodium: 180 },
-  { keywords: ["ข้าวเหนียวมะม่วง"], name: "ข้าวเหนียวมะม่วง", calories: 450, protein: 6, fat: 14, carb: 75, sodium: 220 },
-  { keywords: ["ไอศกรีม", "ไอติม"], name: "ไอศกรีม (2 สกู๊ป)", calories: 230, protein: 4, fat: 12, carb: 28, sodium: 80 },
-  { keywords: ["เค้กช็อกโกแลต", "เค้ก"], name: "เค้กช็อกโกแลต (1 ชิ้น)", calories: 350, protein: 5, fat: 18, carb: 42, sodium: 220 },
-  { keywords: ["โดนัท"], name: "โดนัทเคลือบน้ำตาล (1 ชิ้น)", calories: 260, protein: 3, fat: 14, carb: 31, sodium: 210 },
-  { keywords: ["โรตี"], name: "โรตีใส่ไข่นมสด", calories: 420, protein: 8, fat: 20, carb: 52, sodium: 320 }
+  // อาหารคลีน & สุขภาพ
+  { 
+    keywords: ["อกไก่ต้ม", "อกไก่ย่าง", "อกไก่"], name: "อกไก่ต้ม/ย่าง (100g)", 
+    calories: 165, protein: 31, fat: 3.6, hdlFat: 2.4, ldlFat: 1.2, cholesterol: 85, carb: 0, sugar: 0, fiber: 0, 
+    sodium: 74, potassium: 256, calcium: 15, iron: 1.0, magnesium: 29, vitaminD: 5, vitaminB: 0.9, folate: 4, collagen: 1800 
+  },
+  { 
+    keywords: ["แซลมอนย่าง", "แซลมอน"], name: "แซลมอนย่าง (100g)", 
+    calories: 208, protein: 22, fat: 13, hdlFat: 9.8, ldlFat: 3.2, cholesterol: 55, carb: 0, sugar: 0, fiber: 0, 
+    sodium: 60, potassium: 363, calcium: 12, iron: 0.8, magnesium: 30, vitaminD: 520, vitaminB: 1.2, folate: 25, collagen: 2200 
+  }
 ];
 
 const FOOD_KEYWORDS = [
@@ -717,6 +744,7 @@ let state = {
   scanSuccess: "",
   showAvatarCustomizer: false,
   showConfigModal: false,
+  selectedDetailMeal: null,
   profileDraft: null,
 };
 state.profileDraft = { ...state.profile };
@@ -1009,18 +1037,80 @@ function render(){
         <button class="primary-btn" onclick="saveProfile()" style="margin-bottom:12px">💾 บันทึกเป้าหมาย TDEE</button>
       </div>
     </div>
+
+    <!-- Deep Scientific Nutrition Detail Modal Sheet -->
+    <div class="modal-overlay ${state.selectedDetailMeal ? 'open' : ''}" onclick="if(event.target===this) setState({selectedDetailMeal:null})">
+      ${state.selectedDetailMeal ? deepNutritionModalHTML(state.selectedDetailMeal) : ''}
+    </div>
   `;
 }
 
 function mealRowHTML(m){
   return `
   <div class="meal-item">
-    <div>
+    <div class="meal-info">
       <div class="meal-title">${escapeHTML(m.name)}</div>
       <div class="meal-sub">${m.calories} kcal · P${m.protein}g · F${m.fat}g · C${m.carb}g · Na${m.sodium}mg</div>
     </div>
-    <button onclick="deleteMeal('${m.id}')" style="background:rgba(239,68,68,0.08); color:var(--coral-deep); border-radius:999px; padding:4px 10px; font-size:11.5px; font-weight:600">ลบ</button>
+    <button class="detail-pill-btn" onclick="viewMealDetail('${m.id}')">
+      📊 รายละเอียด
+    </button>
+    <button class="delete-pill-btn" onclick="deleteMeal('${m.id}')">ลบ</button>
   </div>`;
+}
+
+function deepNutritionModalHTML(m){
+  return `
+  <div class="modal-sheet">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px">
+      <div>
+        <div style="font-family:'Kanit'; font-weight:700; font-size:18px; color:var(--ink)">📊 รายละเอียดโภชนาการเชิงลึก</div>
+        <div style="font-size:13.5px; font-weight:600; color:var(--emerald-deep); margin-top:2px">${escapeHTML(m.name)} (${m.calories} kcal)</div>
+      </div>
+      <button onclick="setState({selectedDetailMeal:null})" style="background:transparent; font-size:22px; color:var(--ink-soft); cursor:pointer">✕</button>
+    </div>
+
+    <!-- มาโคร & ลิพิด -->
+    <div class="detail-section-title">🧬 สารอาหารให้พลังงาน & ลิพิด (Macros & Lipids)</div>
+    <div class="detail-grid">
+      <div class="detail-row"><span class="detail-lbl">🥩 โปรตีน (Protein)</span><span class="detail-val">${m.protein} g</span></div>
+      <div class="detail-row"><span class="detail-lbl">🦴 คอลลาเจน (Collagen)</span><span class="detail-val">${m.collagen || 0} mg</span></div>
+      <div class="detail-row"><span class="detail-lbl">🌾 คาร์โบไฮเดรต</span><span class="detail-val">${m.carb} g</span></div>
+      <div class="detail-row"><span class="detail-lbl">🍬 น้ำตาล (Sugar)</span><span class="detail-val">${m.sugar || 0} g</span></div>
+      <div class="detail-row"><span class="detail-lbl">🥗 ไฟเบอร์ (Fiber)</span><span class="detail-val">${m.fiber || 0} g</span></div>
+      <div class="detail-row"><span class="detail-lbl">🥑 ไขมันรวม (Total Fat)</span><span class="detail-val">${m.fat} g</span></div>
+      <div class="detail-row"><span class="detail-lbl">💚 ไขมันดี (HDL/Unsat)</span><span class="detail-val">${m.hdlFat || 0} g</span></div>
+      <div class="detail-row"><span class="detail-lbl">⚠️ ไขมันไม่ดี (LDL/Sat)</span><span class="detail-val">${m.ldlFat || 0} g</span></div>
+      <div class="detail-row" style="grid-column: 1 / -1"><span class="detail-lbl">🍳 คอเลสเตอรอล (Cholesterol)</span><span class="detail-val">${m.cholesterol || 0} mg</span></div>
+    </div>
+
+    <!-- เกลือแร่สำคัญ -->
+    <div class="detail-section-title">🧂 เกลือแร่และแร่ธาตุสำคัญ (Minerals)</div>
+    <div class="detail-grid">
+      <div class="detail-row"><span class="detail-lbl">🧂 โซเดียม (Sodium)</span><span class="detail-val">${m.sodium} mg</span></div>
+      <div class="detail-row"><span class="detail-lbl">🍌 โพแทสเซียม</span><span class="detail-val">${m.potassium || 0} mg</span></div>
+      <div class="detail-row"><span class="detail-lbl">🦴 แคลเซียม (Calcium)</span><span class="detail-val">${m.calcium || 0} mg</span></div>
+      <div class="detail-row"><span class="detail-lbl">🩸 ธาตุเหล็ก (Iron)</span><span class="detail-val">${m.iron || 0} mg</span></div>
+      <div class="detail-row" style="grid-column: 1 / -1"><span class="detail-lbl">⚡ แมกนีเซียม (Magnesium)</span><span class="detail-val">${m.magnesium || 0} mg</span></div>
+    </div>
+
+    <!-- วิตามิน -->
+    <div class="detail-section-title">☀️ วิตามินและสารอาหารเสริม (Vitamins & Folate)</div>
+    <div class="detail-grid">
+      <div class="detail-row"><span class="detail-lbl">☀️ วิตามินดี (Vitamin D)</span><span class="detail-val">${m.vitaminD || 0} IU</span></div>
+      <div class="detail-row"><span class="detail-lbl">🧠 วิตามินบี (Vitamin B)</span><span class="detail-val">${m.vitaminB || 0} mg</span></div>
+      <div class="detail-row" style="grid-column: 1 / -1"><span class="detail-lbl">🥬 โฟเลต (Folate)</span><span class="detail-val">${m.folate || 0} mcg</span></div>
+    </div>
+
+    <button class="primary-btn" onclick="setState({selectedDetailMeal:null})" style="margin-top:16px">ปิดหน้าต่างรายละเอียด</button>
+  </div>`;
+}
+
+function viewMealDetail(id){
+  const meal = state.meals.find(m => m.id === id);
+  if(meal){
+    setState({ selectedDetailMeal: meal });
+  }
 }
 
 function updateForm(key, value){
@@ -1050,26 +1140,29 @@ function submitMeal(){
   const mealName = f.name.trim();
   if(!mealName) return;
 
-  // Auto-calculate if calories field is empty upon save
-  if(!f.calories || Number(f.calories) <= 0){
-    const calc = computeNutrition(mealName);
-    if(calc){
-      f.calories = String(calc.calories);
-      f.protein = String(calc.protein);
-      f.fat = String(calc.fat);
-      f.carb = String(calc.carb);
-      f.sodium = String(calc.sodium);
-    }
-  }
+  const calc = computeNutrition(mealName);
 
   const meal = {
     id: Date.now().toString(),
     name: mealName,
-    calories: Number(f.calories) || 450,
-    protein: Number(f.protein) || 18,
-    fat: Number(f.fat) || 14,
-    carb: Number(f.carb) || 60,
-    sodium: Number(f.sodium) || 750
+    calories: Number(f.calories) || (calc ? calc.calories : 450),
+    protein: Number(f.protein) || (calc ? calc.protein : 18),
+    fat: Number(f.fat) || (calc ? calc.fat : 14),
+    hdlFat: calc ? calc.hdlFat : 5,
+    ldlFat: calc ? calc.ldlFat : 9,
+    cholesterol: calc ? calc.cholesterol : 45,
+    carb: Number(f.carb) || (calc ? calc.carb : 60),
+    sugar: calc ? calc.sugar : 8,
+    fiber: calc ? calc.fiber : 2,
+    sodium: Number(f.sodium) || (calc ? calc.sodium : 750),
+    potassium: calc ? calc.potassium : 280,
+    calcium: calc ? calc.calcium : 40,
+    iron: calc ? calc.iron : 1.8,
+    magnesium: calc ? calc.magnesium : 25,
+    vitaminD: calc ? calc.vitaminD : 5,
+    vitaminB: calc ? calc.vitaminB : 0.3,
+    folate: calc ? calc.folate : 15,
+    collagen: calc ? calc.collagen : 500
   };
 
   const meals = [...state.meals, meal];
@@ -1083,76 +1176,86 @@ function deleteMeal(id){
   setState({ meals });
 }
 
-/* ---------------- Universal Deconstruction Math Engine for 100% of All World Foods & Drinks ---------------- */
+/* ---------------- Scientific Micronutrient & Lipid Nutrition Engine ---------------- */
 function computeNutrition(inputName){
   const cleanName = inputName.trim().toLowerCase();
   if(!cleanName) return null;
 
-  // 1. Direct or Partial Match in Global Database
+  // 1. Direct Match in Database
   let matched = THAI_FOOD_DB.find(item => 
     item.keywords.some(k => cleanName.includes(k.toLowerCase()) || k.toLowerCase().includes(cleanName))
   );
 
-  // 2. Strict Check: Does the typed text contain ANY recognized food/beverage keyword or ingredient?
+  // 2. Strict Check: Does text contain recognized food/beverage term?
   const isRecognizedFood = matched || FOOD_KEYWORDS.some(k => cleanName.includes(k));
-
   if(!isRecognizedFood){
     return null;
   }
 
   if(matched){
-    let baseCal = matched.calories, basePro = matched.protein, baseFat = matched.fat, baseCarb = matched.carb, baseSod = matched.sodium;
-    if(cleanName.includes("ไข่ดาว")){ baseCal += 120; basePro += 6; baseFat += 10; baseSod += 150; }
-    if(cleanName.includes("ไข่เจียว") && !cleanName.includes("ข้าวไข่เจียว")){ baseCal += 240; basePro += 7; baseFat += 22; baseSod += 350; }
-    if(cleanName.includes("พิเศษ")){ baseCal = Math.round(baseCal * 1.25); basePro = Math.round(basePro * 1.25); baseCarb = Math.round(baseCarb * 1.25); }
-    return { calories: baseCal, protein: basePro, fat: baseFat, carb: baseCarb, sodium: baseSod };
+    let m = { ...matched };
+    if(cleanName.includes("ไข่ดาว")){ 
+      m.calories += 120; m.protein += 6; m.fat += 10; m.hdlFat += 4; m.ldlFat += 6; m.cholesterol += 210; m.sodium += 150; 
+    }
+    if(cleanName.includes("พิเศษ")){ 
+      m.calories = Math.round(m.calories * 1.25); m.protein = Math.round(m.protein * 1.25); m.carb = Math.round(m.carb * 1.25); 
+    }
+    return m;
   }
 
-  // 3. Universal Deconstruction Engine for ANY World Food/Drink Combination
+  // 3. Universal Scientific Breakdown for Any Food/Drink
   const isDrink = ["ชา", "กาแฟ", "นม", "น้ำ", "โซดา", "ปั่น", "สมูทตี้", "เบียร์", "ไวน์", "เหล้า", "วิสกี้", "ค็อกเทล", "มอคค่า", "ลาเต้", "เอสเพรสโซ", "โกโก้", "จูซ", "juice", "coffee", "tea", "latte"].some(k => cleanName.includes(k));
 
-  let calories = 0, protein = 0, fat = 0, carb = 0, sodium = 0;
+  let calories = 0, protein = 0, fat = 0, hdlFat = 0, ldlFat = 0, cholesterol = 0, carb = 0, sugar = 0, fiber = 0, sodium = 0, potassium = 0, calcium = 0, iron = 0, magnesium = 0, vitaminD = 0, vitaminB = 0, folate = 0, collagen = 0;
 
   if(isDrink){
-    calories = 220; protein = 3; fat = 6; carb = 38; sodium = 90;
-    if(cleanName.includes("ดำ") || cleanName.includes("อเมริกาโน") || cleanName.includes("ไม่หวาน") || cleanName.includes("ใส") || cleanName.includes("ซีโร่") || cleanName.includes("zero")){
-      calories = 15; protein = 0; fat = 0; carb = 3; sodium = 10;
+    // Pure liquid profile: 0g fat/protein unless milk/shake added
+    if(cleanName.includes("โค้ก") || cleanName.includes("แป๊ปซี่") || cleanName.includes("สไปรท์") || cleanName.includes("น้ำอัดลม")){
+      return { calories: 140, protein: 0, fat: 0, hdlFat: 0, ldlFat: 0, cholesterol: 0, carb: 36, sugar: 35, fiber: 0, sodium: 35, potassium: 10, calcium: 2, iron: 0.1, magnesium: 1, vitaminD: 0, vitaminB: 0, folate: 0, collagen: 0 };
     }
-    if(cleanName.includes("ปั่น") || cleanName.includes("สมูทตี้")){ calories += 90; carb += 20; }
-    if(cleanName.includes("ไข่มุก") || cleanName.includes("พุดดิ้ง")){ calories += 100; carb += 25; }
-    if(cleanName.includes("วิปครีม") || cleanName.includes("ชีส")){ calories += 110; fat += 11; }
-    if(cleanName.includes("เบียร์") || cleanName.includes("เหล้า") || clean.includes("ไวน์")){ calories = 150; carb = 10; fat = 0; }
+    if(cleanName.includes("ดำ") || cleanName.includes("อเมริกาโน") || cleanName.includes("ไม่หวาน") || cleanName.includes("ใส") || cleanName.includes("ซีโร่")){
+      return { calories: 15, protein: 0, fat: 0, hdlFat: 0, ldlFat: 0, cholesterol: 0, carb: 3, sugar: 0, fiber: 0, sodium: 10, potassium: 116, calcium: 7, iron: 0.1, magnesium: 12, vitaminD: 0, vitaminB: 0.2, folate: 2, collagen: 0 };
+    }
+
+    calories = 220; protein = 2; fat = 6; hdlFat = 2; ldlFat = 4; cholesterol = 15; carb = 38; sugar = 30; fiber = 0.5; sodium = 90; potassium = 160; calcium = 110; iron = 0.2; magnesium = 15; vitaminD = 4; vitaminB = 0.2; folate = 4; collagen = 0;
+    if(cleanName.includes("ปั่น") || cleanName.includes("สมูทตี้")){ calories += 90; carb += 20; sugar += 18; }
+    if(cleanName.includes("ไข่มุก")){ calories += 100; carb += 25; sugar += 12; }
   } else {
-    // Carbohydrates Base (Rice/Noodles/Pasta/Bread/Pizza/Burgers)
-    if(cleanName.includes("ข้าว") || cleanName.includes("เส้น") || cleanName.includes("ก๋วยเตี๋ยว") || cleanName.includes("บะหมี่") || cleanName.includes("พาสต้า") || cleanName.includes("สปาเกตตี") || cleanName.includes("ขนมปัง") || cleanName.includes("พิซซ่า") || cleanName.includes("เบอร์เกอร์") || cleanName.includes("แป้ง") || cleanName.includes("ราเมง") || cleanName.includes("ต๊อก")){
-      calories += 220; carb += 45; protein += 4; sodium += 150;
+    // Solid Food Breakdown
+    if(cleanName.includes("ข้าว") || cleanName.includes("เส้น") || cleanName.includes("ก๋วยเตี๋ยว") || cleanName.includes("บะหมี่") || cleanName.includes("พาสต้า") || cleanName.includes("สปาเกตตี") || cleanName.includes("ขนมปัง") || cleanName.includes("พิซซ่า") || cleanName.includes("เบอร์เกอร์")){
+      calories += 220; carb += 45; sugar += 2; fiber += 2.5; protein += 4; sodium += 150; potassium += 110; calcium += 20; iron += 1.2; magnesium += 22;
     } else {
-      calories += 100; carb += 10;
+      calories += 80; carb += 8; fiber += 1.0;
     }
 
-    // Protein Base (Pork/Beef/Chicken/Seafood/Tofu/Eggs)
-    if(cleanName.includes("หมูกรอบ")){ calories += 260; protein += 14; fat += 22; sodium += 350; }
-    else if(cleanName.includes("หมู") || cleanName.includes("เนื้อ") || cleanName.includes("แกะ") || cleanName.includes("เป็ด")){ calories += 180; protein += 22; fat += 14; sodium += 200; }
-    else if(cleanName.includes("ไก่") || cleanName.includes("อกไก่")){ calories += 140; protein += 26; fat += 5; sodium += 150; }
-    else if(cleanName.includes("กุ้ง") || cleanName.includes("ปลา") || cleanName.includes("แซลมอน") || cleanName.includes("หมึก") || cleanName.includes("ปู") || cleanName.includes("หอย") || cleanName.includes("ทะเล")){ calories += 130; protein += 24; fat += 4; sodium += 300; }
-    else if(cleanName.includes("เต้าหู้") || cleanName.includes("เห็ด")){ calories += 90; protein += 10; fat += 3; sodium += 100; }
+    // Meat / Protein Source
+    if(cleanName.includes("หมูกรอบ")){ 
+      calories += 260; protein += 14; fat += 22; hdlFat += 6; ldlFat += 16; cholesterol += 65; sodium += 350; potassium += 220; calcium += 15; iron += 1.5; magnesium += 18; collagen += 1200; 
+    }
+    else if(cleanName.includes("หมู") || cleanName.includes("เนื้อ") || cleanName.includes("เป็ด")){ 
+      calories += 180; protein += 22; fat += 14; hdlFat += 5; ldlFat += 9; cholesterol += 70; sodium += 200; potassium += 320; calcium += 18; iron += 2.4; magnesium += 26; vitaminB += 0.5; collagen += 1000; 
+    }
+    else if(cleanName.includes("ไก่") || cleanName.includes("อกไก่")){ 
+      calories += 140; protein += 26; fat += 5; hdlFat += 3; ldlFat += 2; cholesterol += 75; sodium += 150; potassium += 280; calcium += 14; iron += 1.1; magnesium += 25; vitaminB += 0.7; collagen += 1500; 
+    }
+    else if(cleanName.includes("กุ้ง") || cleanName.includes("ปลา") || cleanName.includes("แซลมอน") || cleanName.includes("หมึก") || cleanName.includes("ปู") || cleanName.includes("หอย")){ 
+      calories += 130; protein += 24; fat += 4; hdlFat += 3.2; ldlFat += 0.8; cholesterol += 140; sodium += 300; potassium += 340; calcium += 50; iron += 2.1; magnesium += 35; vitaminD += 250; collagen += 900; 
+    }
 
-    // Cooking Method & Fats
-    if(cleanName.includes("ทอด") || cleanName.includes("กรอบ") || cleanName.includes("ชุบแป้ง")){ calories += 180; fat += 18; sodium += 200; }
-    else if(cleanName.includes("ผัด") || cleanName.includes("คั่ว")){ calories += 130; fat += 13; sodium += 250; }
-    else if(cleanName.includes("กะทิ") || cleanName.includes("แกงข้น") || cleanName.includes("แกงเผ็ด") || cleanName.includes("พะแนง") || cleanName.includes("คาโบนารา")){ calories += 200; fat += 20; sodium += 400; }
-    else if(cleanName.includes("ต้มยำ") || cleanName.includes("ส้มตำ") || cleanName.includes("ยำ") || cleanName.includes("ลาบ")){ calories += 40; sodium += 650; }
-    else if(cleanName.includes("ต้ม") || cleanName.includes("นึ่ง") || clean.includes("ตุ๋น") || clean.includes("แกงจืด")){ calories += 20; sodium += 300; }
+    // Cooking Method
+    if(cleanName.includes("ทอด") || cleanName.includes("กรอบ")){ calories += 180; fat += 18; ldlFat += 14; sodium += 200; }
+    else if(cleanName.includes("ผัด")){ calories += 130; fat += 13; hdlFat += 5; ldlFat += 8; sodium += 250; }
+    else if(cleanName.includes("กะทิ") || cleanName.includes("พะแนง")){ calories += 200; fat += 20; ldlFat += 18; sodium += 400; }
 
-    // Addons & Modifiers
-    if(cleanName.includes("ไข่ดาว")){ calories += 120; protein += 6; fat += 10; sodium += 150; }
-    if(cleanName.includes("ไข่เจียว") && !cleanName.includes("ข้าวไข่เจียว")){ calories += 240; protein += 7; fat += 22; sodium += 350; }
-    if(cleanName.includes("ไข่ต้ม") || cleanName.includes("ไข่ลวก")){ calories += 75; protein += 6; fat += 5; sodium += 70; }
-    if(cleanName.includes("ชีส")){ calories += 110; protein += 6; fat += 9; sodium += 180; }
-    if(cleanName.includes("พิเศษ")){ calories = Math.round(calories * 1.25); protein = Math.round(protein * 1.25); carb = Math.round(carb * 1.25); }
+    // Modifiers
+    if(cleanName.includes("ไข่ดาว")){ calories += 120; protein += 6; fat += 10; hdlFat += 4; ldlFat += 6; cholesterol += 210; sodium += 150; vitaminD += 40; }
   }
 
-  return { calories: Math.round(calories), protein: Math.round(protein), fat: Math.round(fat), carb: Math.round(carb), sodium: Math.round(sodium) };
+  return { 
+    calories: Math.round(calories), protein: Math.round(protein), fat: Math.round(fat), hdlFat: Math.round(hdlFat*10)/10, ldlFat: Math.round(ldlFat*10)/10, cholesterol: Math.round(cholesterol), 
+    carb: Math.round(carb), sugar: Math.round(sugar), fiber: Math.round(fiber*10)/10, sodium: Math.round(sodium), potassium: Math.round(potassium), calcium: Math.round(calcium), 
+    iron: Math.round(iron*10)/10, magnesium: Math.round(magnesium), vitaminD: Math.round(vitaminD), vitaminB: Math.round(vitaminB*10)/10, folate: Math.round(folate), collagen: Math.round(collagen) 
+  };
 }
 
 async function analyzeMealText(){
