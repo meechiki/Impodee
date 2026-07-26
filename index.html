@@ -934,10 +934,10 @@ function render(){
       ${state.scanSuccess ? `<div class="status-badge" style="color:var(--emerald-deep); background:var(--emerald-light); border:1px solid rgba(16, 185, 129, 0.3)">${state.scanSuccess}</div>` : ""}
       ${state.scanError ? `<div class="status-badge" style="color:var(--coral-deep); background:var(--coral-light); border:1px solid rgba(255, 107, 74, 0.3)">${state.scanError}</div>` : ""}
 
-      <!-- Name Input: Type completely at own pace, THEN press ✨ คำนวณ -->
+      <!-- Name Input: Enter key triggers calculation -->
       <div class="name-ai-row">
-        <input class="field-input" placeholder="พิมพ์ชื่ออาหารหรือเครื่องดื่มทุกชนิดบนโลก" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)"/>
-        <button class="ai-text-btn" onclick="analyzeMealText()" title="พิมพ์ชื่ออาหารหรือเครื่องดื่มแล้วกดปุ่มนี้เพื่อคำนวณ">
+        <input class="field-input" placeholder="พิมพ์ชื่ออาหารหรือเครื่องดื่ม (กด Enter เพื่อคำนวณได้)" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)" onkeydown="if(event.key==='Enter'){ event.preventDefault(); analyzeMealText(); }"/>
+        <button class="ai-text-btn" onclick="analyzeMealText()" title="พิมพ์ชื่ออาหารหรือเครื่องดื่มแล้วกดปุ่มนี้ (หรือกด Enter) เพื่อคำนวณ">
           ✨ คำนวณ
         </button>
       </div>
@@ -1141,7 +1141,7 @@ function computeNutrition(inputName){
     if(cleanName.includes("ทอด") || cleanName.includes("กรอบ") || cleanName.includes("ชุบแป้ง")){ calories += 180; fat += 18; sodium += 200; }
     else if(cleanName.includes("ผัด") || cleanName.includes("คั่ว")){ calories += 130; fat += 13; sodium += 250; }
     else if(cleanName.includes("กะทิ") || cleanName.includes("แกงข้น") || cleanName.includes("แกงเผ็ด") || cleanName.includes("พะแนง") || cleanName.includes("คาโบนารา")){ calories += 200; fat += 20; sodium += 400; }
-    else if(cleanName.includes("ต้มยำ") || cleanName.includes("ส้มตำ") || cleanName.includes("ยำ") || clean.includes("ลาบ")){ calories += 40; sodium += 650; }
+    else if(cleanName.includes("ต้มยำ") || cleanName.includes("ส้มตำ") || cleanName.includes("ยำ") || cleanName.includes("ลาบ")){ calories += 40; sodium += 650; }
     else if(cleanName.includes("ต้ม") || cleanName.includes("นึ่ง") || clean.includes("ตุ๋น") || clean.includes("แกงจืด")){ calories += 20; sodium += 300; }
 
     // Addons & Modifiers
