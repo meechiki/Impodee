@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>อิ่มพอดี (Impodee) — ผู้ช่วยคำนวณอาหารตาม TDEE (Flixo Minimalist UX)</title>
+<title>อิ่มพอดี (Impodee) — Flixo Clean & Minimalist Dashboard</title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="อิ่มพอดี (Impodee) - แอปผู้ช่วยคำนวณโภชนาการและพลังงาน TDEE สไตล์ Flixo Clean & Minimalist พร้อมระบบ AI สแกนอาหารและปรับแต่งตัวละคร" />
-<meta name="keywords" content="Impodee, อิ่มพอดี, TDEE, คำนวณแคลอรี่, สแกนอาหาร, โภชนาการ, Flixo Design" />
+<meta name="description" content="อิ่มพอดี (Impodee) - ผู้ช่วยคำนวณอาหารตาม TDEE สไตล์ Flixo Minimal Dashboard ใช้งานง่ายในหน้าเดียว ไม่ต้องสลับแท็บ" />
 
 <!-- Google Fonts: Inter, Kanit, Sarabun -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,26 +15,23 @@
 
 <style>
   :root {
-    /* Flixo Soft Cloud Color Palette */
-    --bg-base: #F4F7F5;
-    --bg-gradient: linear-gradient(135deg, #F6F9F7 0%, #EAF2ED 50%, #F0F5F2 100%);
-    --surface-glass: rgba(255, 255, 255, 0.76);
-    --surface-glass-solid: rgba(255, 255, 255, 0.92);
-    --surface-soft: rgba(235, 244, 238, 0.7);
-    --surface-hover: rgba(255, 255, 255, 0.95);
+    /* Flixo Soft Cloud Theme */
+    --bg-base: #F3F6F4;
+    --surface-glass: rgba(255, 255, 255, 0.78);
+    --surface-glass-solid: rgba(255, 255, 255, 0.95);
+    --surface-soft: rgba(235, 244, 238, 0.75);
+    --surface-hover: rgba(255, 255, 255, 0.98);
     
-    /* Ink & Neutral Colors */
     --ink: #111827;
     --ink-muted: #4B5563;
     --ink-soft: #6B7280;
     --line: rgba(209, 226, 215, 0.65);
-    --line-light: rgba(255, 255, 255, 0.8);
+    --line-light: rgba(255, 255, 255, 0.85);
     
-    /* Brand Accents */
     --emerald: #10B981;
     --emerald-deep: #059669;
     --emerald-light: #D1FAE5;
-    --emerald-glow: rgba(16, 185, 129, 0.25);
+    --emerald-glow: rgba(16, 185, 129, 0.22);
     
     --coral: #FF6B4A;
     --coral-deep: #EA580C;
@@ -48,15 +44,10 @@
     --gold: #F59E0B;
     --gold-deep: #D97706;
     --gold-light: #FEF3C7;
-    --gold-glow: rgba(245, 158, 11, 0.3);
+    --gold-glow: rgba(245, 158, 11, 0.25);
 
-    --purple: #8B5CF6;
-    --purple-light: #EDE9FE;
-
-    /* Shadows & Effects */
     --shadow-sm: 0 4px 12px rgba(16, 30, 22, 0.03);
     --shadow-glass: 0 16px 36px -8px rgba(18, 38, 25, 0.06), 0 4px 12px rgba(0,0,0,0.02);
-    --shadow-float: 0 20px 40px -12px rgba(16, 185, 129, 0.15);
     --radius-xl: 26px;
     --radius-lg: 20px;
     --radius-md: 14px;
@@ -71,8 +62,8 @@
     min-height: 100vh;
     background: var(--bg-base);
     background-image: 
-      radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.07) 0%, transparent 40%),
+      radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.07) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 40%),
       radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 60%);
     background-attachment: fixed;
     font-family: 'Sarabun', 'Inter', sans-serif;
@@ -80,32 +71,32 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    padding: 16px;
   }
 
   /* Typography Defaults */
   h1, h2, h3, .font-title { font-family: 'Kanit', sans-serif; font-weight: 600; }
   .font-num { font-family: 'Kanit', 'Inter', sans-serif; }
 
-  /* App Layout Container */
+  /* App Main Dashboard Container */
   #root {
     width: 100%;
-    max-width: 440px;
-    min-height: 100vh;
-    padding: 20px 18px 120px;
+    max-width: 480px;
     position: relative;
+    padding-bottom: 40px;
   }
 
-  /* Header Bar */
+  /* Compact Header */
   .header-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding: 6px 2px;
+    margin-bottom: 16px;
+    padding: 4px 2px;
   }
   .brand-title {
     font-family: 'Kanit', sans-serif;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     background: linear-gradient(135deg, var(--ink) 30%, var(--emerald-deep) 100%);
     -webkit-background-clip: text;
@@ -113,19 +104,18 @@
     letter-spacing: -0.3px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
-  .brand-subtitle {
-    font-size: 12px;
-    color: var(--ink-soft);
-    font-weight: 500;
-    margin-top: -2px;
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .github-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: var(--surface-glass);
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--line-light);
@@ -137,335 +127,278 @@
     font-size: 12px;
     font-weight: 600;
     font-family: 'Inter', sans-serif;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.2s ease;
   }
   .github-badge:hover {
     background: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-glass);
+    transform: translateY(-1px);
   }
 
   .streak-pill {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: var(--surface-glass);
     backdrop-filter: var(--glass-blur);
     border: 1px solid rgba(245, 158, 11, 0.3);
-    padding: 6px 14px;
+    padding: 6px 12px;
     border-radius: 999px;
     box-shadow: var(--shadow-sm);
   }
   .streak-fire {
-    font-size: 16px;
+    font-size: 15px;
     animation: flamePulse 2s ease-in-out infinite;
   }
   @keyframes flamePulse {
-    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(245,158,11,0.5)); }
-    50% { transform: scale(1.18); filter: drop-shadow(0 0 8px rgba(245,158,11,0.8)); }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
   }
 
-  /* Glassmorphic Cards */
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface-glass);
+    border: 1px solid var(--line-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    font-size: 16px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .icon-btn:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
+    color: var(--emerald-deep);
+  }
+
+  /* Glass Cards */
   .glass-card {
     background: var(--surface-glass);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--line-light);
     border-radius: var(--radius-xl);
-    padding: 22px;
+    padding: 20px;
     box-shadow: var(--shadow-glass);
-    margin-bottom: 18px;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
-  }
-  .glass-card:hover {
-    border-color: rgba(255, 255, 255, 0.95);
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 16px;
   }
-  .card-title {
-    font-family: 'Kanit', sans-serif;
-    font-weight: 600;
-    font-size: 17px;
-    color: var(--ink);
-    letter-spacing: -0.2px;
+
+  /* Unified Hero Dashboard Card (Avatar + Progress) */
+  .hero-card {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 380px) {
+    .hero-card {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
   }
 
-  /* Avatar Card Styling */
-  .avatar-card {
+  .avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    text-align: center;
-    padding: 24px 18px 20px;
-    overflow: hidden;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(240, 247, 242, 0.7) 100%);
-  }
-  .avatar-card::before {
-    content: '';
-    position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, var(--emerald-glow) 0%, transparent 70%);
-    pointer-events: none;
-    border-radius: 50%;
   }
 
   .bobbing-avatar {
     display: inline-block;
-    filter: drop-shadow(0 12px 16px rgba(0,0,0,0.06));
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .bobbing-avatar {
-      animation: floatBob 3.6s ease-in-out infinite;
-    }
+    filter: drop-shadow(0 10px 14px rgba(0,0,0,0.06));
+    animation: floatBob 3.6s ease-in-out infinite;
   }
   @keyframes floatBob {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-7px) rotate(0.8deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
   }
 
   .mood-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 16px;
+    gap: 4px;
+    padding: 4px 10px;
     border-radius: 999px;
     font-family: 'Kanit', sans-serif;
     font-weight: 600;
-    font-size: 14px;
-    margin-top: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    backdrop-filter: var(--glass-blur);
-    transition: all 0.3s ease;
+    font-size: 12px;
+    margin-top: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    white-space: nowrap;
   }
 
-  /* Progress Bar & Stats */
-  .stat-item {
-    margin-bottom: 16px;
+  /* Compact Stats & Progress */
+  .macro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
   }
-  .stat-item:last-child { margin-bottom: 0; }
-  .stat-label-row {
+  .macro-pill {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 8px 10px;
+  }
+  .macro-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 7px;
-  }
-  .stat-name {
-    font-size: 13.5px;
-    color: var(--ink-muted);
+    font-size: 11.5px;
+    color: var(--ink-soft);
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    margin-bottom: 4px;
   }
-  .stat-value {
+  .macro-val {
     font-family: 'Kanit', sans-serif;
-    font-size: 14.5px;
+    font-size: 13.5px;
     font-weight: 600;
     color: var(--ink);
   }
-  .stat-target {
-    color: var(--ink-soft);
-    font-size: 12.5px;
-    font-weight: 400;
-  }
 
   .progress-track {
-    background: rgba(226, 238, 230, 0.8);
+    background: rgba(226, 238, 230, 0.75);
     border-radius: 999px;
-    height: 10px;
+    height: 7px;
     overflow: hidden;
-    position: relative;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    margin-top: 4px;
   }
   .progress-fill {
     height: 100%;
     border-radius: 999px;
-    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Streak Banner */
-  .streak-banner {
-    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-    border-radius: var(--radius-lg);
-    padding: 18px 22px;
+  /* Quick Logger Card */
+  .quick-logger-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .quick-logger-title {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+  }
+
+  .ai-scan-btn-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .ai-btn {
+    padding: 10px;
+    border-radius: var(--radius-md);
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: 'Kanit', sans-serif;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    color: #ffffff;
-    box-shadow: var(--shadow-float);
-    margin-top: 18px;
-    position: relative;
-    overflow: hidden;
-  }
-  .streak-banner::after {
-    content: '';
-    position: absolute;
-    right: -20px;
-    top: -20px;
-    width: 100px;
-    height: 100px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-    pointer-events: none;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
   }
 
-  /* Form Controls & Inputs */
-  .field-group {
-    margin-bottom: 14px;
+  .input-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
   }
-  .field-label {
-    font-size: 12.5px;
-    color: var(--ink-muted);
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: block;
+  .input-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
   }
+
   .field-input {
     width: 100%;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.9);
     border: 1.5px solid var(--line);
     border-radius: var(--radius-md);
-    padding: 12px 14px;
-    font-size: 14px;
+    padding: 10px 12px;
+    font-size: 13.5px;
     font-family: 'Sarabun', sans-serif;
     color: var(--ink);
     transition: all 0.2s ease;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
   }
   .field-input:focus {
     background: #ffffff;
     border-color: var(--emerald);
-    box-shadow: 0 0 0 4px var(--emerald-glow);
+    box-shadow: 0 0 0 3px var(--emerald-glow);
     outline: none;
   }
-  select.field-input {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%206B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
-  }
 
-  /* Buttons */
-  button {
-    font-family: 'Sarabun', 'Inter', sans-serif;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    outline: none;
-    border: none;
-  }
-  button:active {
-    transform: scale(0.96);
-  }
-
+  /* Primary Button */
   .primary-btn {
     width: 100%;
     background: linear-gradient(135deg, var(--ink) 0%, #1F2937 100%);
     color: #ffffff;
     border-radius: var(--radius-md);
-    padding: 14px 20px;
+    padding: 12px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14.5px;
     font-family: 'Kanit', sans-serif;
-    letter-spacing: 0.2px;
-    box-shadow: 0 6px 20px rgba(17, 24, 39, 0.15);
+    box-shadow: 0 6px 18px rgba(17, 24, 39, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
   }
-  .primary-btn:hover {
-    background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
-    box-shadow: 0 10px 25px rgba(17, 24, 39, 0.25);
-    transform: translateY(-1px);
+  .primary-btn:active { transform: scale(0.97); }
+
+  /* Collapsible / Drawer Accordion */
+  .expandable-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    opacity: 0;
+  }
+  .expandable-panel.open {
+    max-height: 600px;
+    opacity: 1;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
   }
 
-  .emerald-btn {
-    background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%);
-    color: #ffffff;
-    border-radius: var(--radius-md);
-    padding: 12px 16px;
-    font-weight: 600;
-    font-size: 13.5px;
-    box-shadow: 0 6px 18px var(--emerald-glow);
+  /* Swatches for avatar */
+  .swatch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
   }
-  .emerald-btn:hover {
-    box-shadow: 0 8px 22px rgba(16, 185, 129, 0.4);
-    transform: translateY(-1px);
-  }
-
-  .ghost-btn {
-    border: 1.5px solid var(--emerald);
-    color: var(--emerald-deep);
-    background: rgba(16, 185, 129, 0.06);
-    border-radius: 999px;
-    padding: 8px 20px;
-    font-weight: 600;
-    font-size: 13px;
-    font-family: 'Kanit', sans-serif;
-  }
-  .ghost-btn:hover {
-    background: var(--emerald-light);
-  }
-
   .arrow-btn {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: 1px solid var(--line);
     background: #ffffff;
     color: var(--ink);
-    font-size: 18px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-sm);
   }
-  .arrow-btn:hover {
-    background: var(--surface-soft);
-    border-color: var(--emerald);
-    color: var(--emerald-deep);
-  }
-
   .swatch {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    border: 2.5px solid #ffffff;
-  }
-
-  /* Segmented Toggle Buttons */
-  .segmented-control {
-    display: flex;
-    background: rgba(226, 238, 230, 0.6);
-    padding: 4px;
-    border-radius: var(--radius-md);
-    gap: 4px;
-  }
-  .segmented-btn {
-    flex: 1;
-    padding: 10px 0;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    font-weight: 600;
-    background: transparent;
-    color: var(--ink-muted);
-    transition: all 0.2s ease;
-  }
-  .segmented-btn.active {
-    background: #ffffff;
-    color: var(--emerald-deep);
-    box-shadow: var(--shadow-sm);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
   }
 
   /* Meal List Items */
@@ -473,88 +406,73 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 0;
+    padding: 10px 0;
     border-bottom: 1px dashed var(--line);
   }
   .meal-item:last-child { border-bottom: none; }
-  .meal-title { font-weight: 600; font-size: 14.5px; color: var(--ink); }
-  .meal-sub { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+  .meal-title { font-weight: 600; font-size: 14px; color: var(--ink); }
+  .meal-sub { font-size: 11.5px; color: var(--ink-soft); margin-top: 2px; }
 
-  /* Floating Bottom Glass Tabbar */
-  .tabbar {
+  /* Modal Sheet for Config/Profile */
+  .modal-overlay {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(17, 24, 39, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
     display: flex;
+    align-items: flex-end;
     justify-content: center;
+    opacity: 0;
     pointer-events: none;
-    z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom, 10px);
+    transition: opacity 0.25s ease;
   }
-  .tabbar-inner {
-    width: calc(100% - 24px);
-    max-width: 420px;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1.5px solid var(--line-light);
-    border-radius: 999px;
-    display: flex;
-    padding: 6px;
-    margin-bottom: 14px;
-    box-shadow: 0 20px 40px -10px rgba(18, 38, 25, 0.12), 0 4px 16px rgba(0,0,0,0.04);
+  .modal-overlay.open {
+    opacity: 1;
     pointer-events: auto;
   }
-  .tab-btn {
-    flex: 1;
-    border: none;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    padding: 8px 0;
-    border-radius: 999px;
-    color: var(--ink-soft);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  .modal-sheet {
+    width: 100%;
+    max-width: 480px;
+    background: var(--surface-glass-solid);
+    backdrop-filter: var(--glass-blur);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: 24px 20px 36px;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 90vh;
+    overflow-y: auto;
   }
-  .tab-btn.active {
+  .modal-overlay.open .modal-sheet {
+    transform: translateY(0);
+  }
+
+  .segmented-control {
+    display: flex;
+    background: rgba(226, 238, 230, 0.6);
+    padding: 3px;
+    border-radius: var(--radius-md);
+    gap: 4px;
+  }
+  .segmented-btn {
+    flex: 1;
+    padding: 8px 0;
+    border-radius: var(--radius-sm);
+    font-size: 12.5px;
+    font-weight: 600;
+    background: transparent;
+    color: var(--ink-muted);
+    border: none;
+    cursor: pointer;
+  }
+  .segmented-btn.active {
     background: #ffffff;
     color: var(--emerald-deep);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12);
+    box-shadow: var(--shadow-sm);
   }
-  .tab-icon { font-size: 19px; line-height: 1; }
-  .tab-label { font-size: 11px; font-weight: 600; font-family: 'Kanit', sans-serif; }
 
-  /* Utilities */
-  .text-emerald { color: var(--emerald-deep); }
-  .text-coral { color: var(--coral-deep); }
-  .text-blue { color: var(--blue-deep); }
-  .text-gold { color: var(--gold-deep); }
-
-  /* Scan pulse */
-  .scanning-pulse {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
-    background: var(--emerald-light);
-    color: var(--emerald-deep);
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-  .spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--emerald);
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
+  button { cursor: pointer; border: none; outline: none; transition: all 0.2s ease; }
 </style>
 </head>
 <body>
@@ -599,13 +517,12 @@ function loadJSON(key, fallback){
 }
 function saveJSON(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
 
-/* ---------------- TDEE & Calculation Engine ---------------- */
+/* ---------------- TDEE & Math Engine ---------------- */
 function calcTargets(p){
   const w = Number(p.weight) || 65;
   const h = Number(p.height) || 170;
   const a = Number(p.age) || 25;
   
-  // Mifflin-St Jeor Formula
   let bmr = p.gender === "female" ? (10*w + 6.25*h - 5*a - 161) : (10*w + 6.25*h - 5*a + 5);
   const actMult = (ACTIVITY_LEVELS.find(x => x.id === p.activity) || ACTIVITY_LEVELS[0]).mult;
   const goalAdj = (GOALS.find(x => x.id === p.goal) || GOALS[1]).adj;
@@ -637,12 +554,34 @@ function classifyMood(totals, targets){
   return "happy";
 }
 
+function computeStreak(targets){
+  let count = 0;
+  const totals = sumLog(state.meals);
+  const todayOnTarget = classifyMood(totals, targets) === "happy";
+  if(todayOnTarget) count += 1;
+
+  const cursor = new Date();
+  cursor.setDate(cursor.getDate() - 1);
+  for(let i = 0; i < 60; i++){
+    const key = LS_KEYS.logPrefix + todayStr(cursor);
+    const raw = localStorage.getItem(key);
+    if(raw === null) break;
+    const dayMeals = JSON.parse(raw);
+    const dayTotals = sumLog(dayMeals);
+    const ratio = dayTotals.calories / Math.max(1, targets.calories);
+    if(ratio >= 0.85 && ratio <= 1.1){
+      count += 1;
+      cursor.setDate(cursor.getDate() - 1);
+    } else break;
+  }
+  return count;
+}
+
 /* ---------------- Initial State ---------------- */
 const DEFAULT_PROFILE = { gender:"male", age:"25", weight:"65", height:"170", activity:"sedentary", goal:"maintain" };
 const DEFAULT_AVATAR = { skinTone:0, hairStyle:0, hairColor:0, shirtColor:0, pantsColor:0, shoeColor:0 };
 
 let state = {
-  tab: "home",
   profile: loadJSON(LS_KEYS.profile, DEFAULT_PROFILE),
   avatar: loadJSON(LS_KEYS.avatar, DEFAULT_AVATAR),
   apiKey: localStorage.getItem(LS_KEYS.apiKey) || "",
@@ -650,6 +589,8 @@ let state = {
   form: { name:"", calories:"", protein:"", fat:"", carb:"", sodium:"" },
   scanning: false,
   scanError: "",
+  showAvatarCustomizer: false,
+  showConfigModal: false,
   profileDraft: null,
 };
 state.profileDraft = { ...state.profile };
@@ -659,8 +600,8 @@ function setState(patch){
   render();
 }
 
-/* ---------------- Flixo SVG Avatar Generator ---------------- */
-function avatarSVG(config, mood, size = 180){
+/* ---------------- SVG Avatar Component ---------------- */
+function avatarSVG(config, mood, size = 130){
   const skin = SKIN_TONES[config.skinTone] || SKIN_TONES[0];
   const hairColor = HAIR_COLORS[config.hairColor] || HAIR_COLORS[0];
   const shirt = SHIRT_COLORS[config.shirtColor] || SHIRT_COLORS[0];
@@ -725,111 +666,31 @@ function avatarSVG(config, mood, size = 180){
   </svg>`;
 }
 
-/* ---------------- Render Helpers & Screens ---------------- */
-function statRow(label, value, target, unit, color, icon){
+/* ---------------- Render Helpers ---------------- */
+function macroPill(label, value, target, unit, color, icon){
   const pct = Math.min(100, Math.round((value / Math.max(1, target)) * 100));
   return `
-  <div class="stat-item">
-    <div class="stat-label-row">
-      <span class="stat-name">${icon} ${label}</span>
-      <span class="stat-value">${Math.round(value)} <span class="stat-target">/ ${target} ${unit}</span></span>
+  <div class="macro-pill">
+    <div class="macro-header">
+      <span>${icon} ${label}</span>
+      <span>${pct}%</span>
     </div>
+    <div class="macro-val">${Math.round(value)} <span style="font-size:11px; color:var(--ink-soft); font-weight:400">/ ${target}${unit}</span></div>
     <div class="progress-track">
       <div class="progress-fill" style="width:${pct}%; background:${color}"></div>
     </div>
   </div>`;
 }
 
-function computeStreak(targets){
-  let count = 0;
-  const totals = sumLog(state.meals);
-  const todayOnTarget = classifyMood(totals, targets) === "happy";
-  if(todayOnTarget) count += 1;
-
-  const cursor = new Date();
-  cursor.setDate(cursor.getDate() - 1);
-  for(let i = 0; i < 60; i++){
-    const key = LS_KEYS.logPrefix + todayStr(cursor);
-    const raw = localStorage.getItem(key);
-    if(raw === null) break;
-    const dayMeals = JSON.parse(raw);
-    const dayTotals = sumLog(dayMeals);
-    const ratio = dayTotals.calories / Math.max(1, targets.calories);
-    if(ratio >= 0.85 && ratio <= 1.1){
-      count += 1;
-      cursor.setDate(cursor.getDate() - 1);
-    } else break;
-  }
-  return count;
-}
-
-function homeScreen(){
-  const targets = calcTargets(state.profile);
-  const totals = sumLog(state.meals);
-  const mood = classifyMood(totals, targets);
-  const streak = computeStreak(targets);
-
-  const moodData = {
-    happy: { text: "วันนี้ทานได้ตามเป้าหมายพอดีเป๊ะ!", bg: "rgba(16, 185, 129, 0.12)", color: "var(--emerald-deep)", icon: "✨" },
-    hungry: { text: "พลังงานยังขาดอยู่นะ รับประทานเพิ่มอีกหน่อย", bg: "rgba(59, 130, 246, 0.12)", color: "var(--blue-deep)", icon: "🥣" },
-    full: { text: "ทานเกินเป้าหมาย TDEE สำหรับวันนี้แล้ว", bg: "rgba(239, 68, 68, 0.12)", color: "var(--coral-deep)", icon: "⚠️" },
-    idle: { text: "ยังไม่ได้บันทึกมื้ออาหารในวันนี้เลย", bg: "rgba(107, 114, 128, 0.12)", color: "var(--ink-muted)", icon: "📝" }
-  }[mood];
-
-  return `
-  <div class="glass-card avatar-card">
-    <div class="bobbing-avatar">${avatarSVG(state.avatar, mood, 160)}</div>
-    <div>
-      <div class="mood-badge" style="background:${moodData.bg}; color:${moodData.color}">
-        <span>${moodData.icon}</span> <span>${moodData.text}</span>
-      </div>
-    </div>
-    <div style="margin-top:14px">
-      <button class="ghost-btn" onclick="setState({tab:'character'})">✨ ปรับแต่งตัวละคร</button>
-    </div>
-  </div>
-
-  <div class="glass-card">
-    <div class="card-header">
-      <div class="card-title">เป้าหมายวันนี้ (ตามค่า TDEE)</div>
-      <div style="font-size:12px; color:var(--ink-soft); font-weight:600">${targets.calories} kcal/วัน</div>
-    </div>
-    ${statRow("แคลอรี่", totals.calories, targets.calories, "kcal", "var(--gold)", "⚡")}
-    ${statRow("โปรตีน", totals.protein, targets.protein, "g", "var(--coral)", "🥩")}
-    ${statRow("ไขมัน", totals.fat, targets.fat, "g", "var(--blue)", "🥑")}
-    ${statRow("คาร์โบไฮเดรต", totals.carb, targets.carb, "g", "var(--emerald)", "🌾")}
-    
-    <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line)">
-      <div class="stat-label-row">
-        <span class="stat-name">🧂 โซเดียมสะสม</span>
-        <span class="stat-value" style="color:${totals.sodium > targets.sodium ? 'var(--coral-deep)' : 'var(--ink)'}">
-          ${Math.round(totals.sodium)} <span class="stat-target">/ ${targets.sodium} mg</span>
-        </span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" style="width:${Math.min(100, Math.round(totals.sodium/targets.sodium*100))}%; background:${totals.sodium > targets.sodium ? 'var(--coral)' : 'var(--blue)'}"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="streak-banner">
-    <div>
-      <div style="font-size:12.5px; opacity:0.92; font-weight:500">สตรีคการทานอาหารได้ตามเป้า</div>
-      <div style="font-family:'Kanit'; font-size:28px; font-weight:700; line-height:1.1; margin-top:2px">${streak} วันต่อเนื่อง</div>
-    </div>
-    <div style="font-size:36px; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.2))">🔥</div>
-  </div>`;
-}
-
 function arrowPickerHTML(label, options, index, field, renderFn){
   const n = options.length;
-  const inner = renderFn ? renderFn(options[index]) : `<span style="font-size:13.5px; color:var(--ink); font-weight:600">${options[index]}</span>`;
+  const inner = renderFn ? renderFn(options[index]) : `<span style="font-size:12px; color:var(--ink); font-weight:600">${options[index]}</span>`;
   return `
-  <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.7); border:1px solid var(--line); border-radius:var(--radius-md); padding:10px 14px; margin-bottom:10px">
-    <span style="font-weight:600; font-size:13.5px">${label}</span>
-    <div style="display:flex; align-items:center; gap:12px">
+  <div class="swatch-row">
+    <span style="font-weight:600; font-size:12.5px">${label}</span>
+    <div style="display:flex; align-items:center; gap:8px">
       <button class="arrow-btn" onclick="cycleAvatar('${field}', -1, ${n})">‹</button>
-      <div style="min-width:60px; display:flex; justify-content:center">${inner}</div>
+      <div style="min-width:44px; display:flex; justify-content:center">${inner}</div>
       <button class="arrow-btn" onclick="cycleAvatar('${field}', 1, ${n})">›</button>
     </div>
   </div>`;
@@ -847,23 +708,188 @@ function cycleAvatar(field, dir, n){
   setState({ avatar });
 }
 
-function characterScreen(){
+function escapeHTML(s){ const d = document.createElement('div'); d.innerText = s; return d.innerHTML; }
+function escapeAttr(s){ return String(s).replace(/"/g, '&quot;'); }
+
+/* ---------------- Main Render Engine ---------------- */
+function render(){
   const targets = calcTargets(state.profile);
   const totals = sumLog(state.meals);
   const mood = classifyMood(totals, targets);
-  return `
-  <div class="glass-card avatar-card" style="margin-bottom:18px">
-    <div class="bobbing-avatar">${avatarSVG(state.avatar, mood, 180)}</div>
-  </div>
-  <div class="glass-card">
-    <div class="card-title" style="margin-bottom:16px">ปรับแต่งรูปลักษณ์ตัวละคร</div>
-    ${arrowPickerHTML("ทรงผม", HAIR_STYLES, state.avatar.hairStyle, "hairStyle")}
-    ${arrowPickerHTML("สีผม", HAIR_COLORS, state.avatar.hairColor, "hairColor", swatch)}
-    ${arrowPickerHTML("สีผิว", SKIN_TONES, state.avatar.skinTone, "skinTone", swatch)}
-    ${arrowPickerHTML("เสื้อ", SHIRT_COLORS, state.avatar.shirtColor, "shirtColor", swatch)}
-    ${arrowPickerHTML("กางเกง", PANTS_COLORS, state.avatar.pantsColor, "pantsColor", swatch)}
-    ${arrowPickerHTML("รองเท้า", SHOE_COLORS, state.avatar.shoeColor, "shoeColor", swatch)}
-  </div>`;
+  const streak = computeStreak(targets);
+
+  const moodData = {
+    happy: { text: "ทานได้พอดีเป๊ะ!", bg: "rgba(16, 185, 129, 0.12)", color: "var(--emerald-deep)", icon: "✨" },
+    hungry: { text: "รับประทานเพิ่มอีกหน่อย", bg: "rgba(59, 130, 246, 0.12)", color: "var(--blue-deep)", icon: "🥣" },
+    full: { text: "เกินเป้าหมาย TDEE", bg: "rgba(239, 68, 68, 0.12)", color: "var(--coral-deep)", icon: "⚠️" },
+    idle: { text: "ยังไม่ได้บันทึกมื้ออาหาร", bg: "rgba(107, 114, 128, 0.12)", color: "var(--ink-muted)", icon: "📝" }
+  }[mood];
+
+  const calPct = Math.min(100, Math.round((totals.calories / Math.max(1, targets.calories)) * 100));
+  const f = state.form;
+  const canSave = f.name.trim() && f.calories !== "";
+  const hasKey = !!state.apiKey;
+
+  document.getElementById("root").innerHTML = `
+    <!-- Top Bar -->
+    <div class="header-bar">
+      <div>
+        <div class="brand-title"><span>🥗</span> อิ่มพอดี</div>
+      </div>
+      <div class="header-actions">
+        <a href="https://github.com/meechiki/Impodee" target="_blank" class="github-badge">
+          <svg height="14" width="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <div class="streak-pill">
+          <span class="streak-fire">🔥</span>
+          <span style="font-family:'Kanit'; font-weight:700; font-size:13px; color:var(--gold-deep)">${streak} วัน</span>
+        </div>
+        <button class="icon-btn" onclick="setState({showConfigModal:true})" title="ตั้งค่าข้อมูล TDEE และ API Key">⚙️</button>
+      </div>
+    </div>
+
+    <!-- Unified Hero Dashboard Card (Avatar + Targets) -->
+    <div class="glass-card hero-card">
+      <div class="avatar-container">
+        <div class="bobbing-avatar">${avatarSVG(state.avatar, mood, 120)}</div>
+        <div class="mood-badge" style="background:${moodData.bg}; color:${moodData.color}">
+          <span>${moodData.icon}</span> <span>${moodData.text}</span>
+        </div>
+        <button onclick="setState({showAvatarCustomizer: !state.showAvatarCustomizer})" style="background:transparent; color:var(--emerald-deep); font-size:11.5px; font-weight:600; margin-top:6px; text-decoration:underline">
+          ${state.showAvatarCustomizer ? "ปิดตัวแต่ง" : "🎨 ปรับแต่งตัวละคร"}
+        </button>
+      </div>
+
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px">
+          <span style="font-size:12px; color:var(--ink-soft); font-weight:600">พลังงานวันนี้</span>
+          <span style="font-family:'Kanit'; font-size:13px; font-weight:600">${calPct}%</span>
+        </div>
+        <div style="font-family:'Kanit'; font-size:24px; font-weight:700; color:var(--ink); line-height:1">
+          ${Math.round(totals.calories)} <span style="font-size:13px; font-weight:400; color:var(--ink-soft)">/ ${targets.calories} kcal</span>
+        </div>
+        <div class="progress-track" style="height:9px; margin-top:6px">
+          <div class="progress-fill" style="width:${calPct}%; background:var(--gold)"></div>
+        </div>
+
+        <div class="macro-grid">
+          ${macroPill("โปรตีน", totals.protein, targets.protein, "g", "var(--coral)", "🥩")}
+          ${macroPill("ไขมัน", totals.fat, targets.fat, "g", "var(--blue)", "🥑")}
+          ${macroPill("คาร์บ", totals.carb, targets.carb, "g", "var(--emerald)", "🌾")}
+          ${macroPill("โซเดียม", totals.sodium, targets.sodium, "mg", totals.sodium > targets.sodium ? "var(--coral-deep)" : "var(--purple)", "🧂")}
+        </div>
+      </div>
+
+      <!-- Collapsible Inline Avatar Customizer -->
+      <div class="expandable-panel ${state.showAvatarCustomizer ? 'open' : ''}" style="grid-column: 1 / -1">
+        <div style="font-family:'Kanit'; font-size:13.5px; font-weight:600; margin-bottom:10px; color:var(--ink)">🎨 ปรับแต่งรูปลักษณ์ตัวละคร</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px 16px">
+          ${arrowPickerHTML("ทรงผม", HAIR_STYLES, state.avatar.hairStyle, "hairStyle")}
+          ${arrowPickerHTML("สีผม", HAIR_COLORS, state.avatar.hairColor, "hairColor", swatch)}
+          ${arrowPickerHTML("สีผิว", SKIN_TONES, state.avatar.skinTone, "skinTone", swatch)}
+          ${arrowPickerHTML("เสื้อ", SHIRT_COLORS, state.avatar.shirtColor, "shirtColor", swatch)}
+          ${arrowPickerHTML("กางเกง", PANTS_COLORS, state.avatar.pantsColor, "pantsColor", swatch)}
+          ${arrowPickerHTML("รองเท้า", SHOE_COLORS, state.avatar.shoeColor, "shoeColor", swatch)}
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Meal Entry Card -->
+    <div class="glass-card">
+      <div class="quick-logger-header">
+        <div class="quick-logger-title">➕ บันทึกมื้ออาหาร</div>
+        ${!hasKey ? `<span style="font-size:11px; color:var(--gold-deep); background:var(--gold-light); padding:2px 8px; border-radius:999px; font-weight:600">ใส่ API Key เพื่อสแกนรูปภาพ</span>` : ""}
+      </div>
+
+      <div class="ai-scan-btn-group">
+        <button onclick="triggerCamera(false)" ${state.scanning || !hasKey ? 'disabled' : ''} class="ai-btn" style="background:linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%); color:#fff; opacity:${hasKey?1:0.55}">
+          📷 ถ่ายรูปอาหาร
+        </button>
+        <button onclick="triggerCamera(true)" ${state.scanning || !hasKey ? 'disabled' : ''} class="ai-btn" style="background:linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%); color:#fff; opacity:${hasKey?1:0.55}">
+          🏷️ Scan Barcode
+        </button>
+      </div>
+
+      <input id="cameraInput" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImageSelected(this, false)"/>
+      <input id="barcodeInput" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImageSelected(this, true)"/>
+
+      ${state.scanning ? `<div style="color:var(--emerald-deep); font-size:12.5px; font-weight:600; text-align:center; padding:6px 0">กำลังวิเคราะห์ภาพอาหาร...</div>` : ""}
+      ${state.scanError ? `<div style="color:var(--coral-deep); font-size:12px; margin-bottom:8px">${state.scanError}</div>` : ""}
+
+      <div class="input-row">
+        <input class="field-input" placeholder="ชื่ออาหาร (เช่น ข้าวมันไก่)" value="${escapeAttr(f.name)}" oninput="updateForm('name', this.value)"/>
+        <input class="field-input" type="number" placeholder="แคลอรี่ (kcal)" value="${escapeAttr(f.calories)}" oninput="updateForm('calories', this.value)"/>
+      </div>
+
+      <div class="input-grid-4">
+        <input class="field-input" type="number" placeholder="โปรตีน(g)" value="${escapeAttr(f.protein)}" oninput="updateForm('protein', this.value)"/>
+        <input class="field-input" type="number" placeholder="ไขมัน(g)" value="${escapeAttr(f.fat)}" oninput="updateForm('fat', this.value)"/>
+        <input class="field-input" type="number" placeholder="คาร์บ(g)" value="${escapeAttr(f.carb)}" oninput="updateForm('carb', this.value)"/>
+        <input class="field-input" type="number" placeholder="โซเดียม(mg)" value="${escapeAttr(f.sodium)}" oninput="updateForm('sodium', this.value)"/>
+      </div>
+
+      <button class="primary-btn" style="opacity:${canSave ? 1 : 0.5}" onclick="submitMeal()" ${canSave ? '' : 'disabled'}>
+        บันทึกรายการมื้ออาหาร
+      </button>
+    </div>
+
+    <!-- Today's Meals List -->
+    <div class="glass-card">
+      <div style="font-family:'Kanit'; font-weight:600; font-size:15px; margin-bottom:10px">
+        🍽️ รายการที่บันทึกวันนี้ (${state.meals.length})
+      </div>
+      ${state.meals.length === 0 
+        ? `<div style="color:var(--ink-soft); font-size:13px; text-align:center; padding:12px 0">ยังไม่มีรายการมื้ออาหารในวันนี้</div>` 
+        : state.meals.map(mealRowHTML).join("")}
+    </div>
+
+    <!-- Settings & Profile Modal Sheet -->
+    <div class="modal-overlay ${state.showConfigModal ? 'open' : ''}" onclick="if(event.target===this) setState({showConfigModal:false})">
+      <div class="modal-sheet">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
+          <div style="font-family:'Kanit'; font-weight:700; font-size:18px">⚙️ ตั้งค่าข้อมูลส่วนตัว & API Key</div>
+          <button onclick="setState({showConfigModal:false})" style="background:transparent; font-size:20px; color:var(--ink-soft)">✕</button>
+        </div>
+
+        <div style="margin-bottom:14px">
+          <label style="font-size:12px; font-weight:600; color:var(--ink-muted); display:block; margin-bottom:4px">เพศ</label>
+          <div class="segmented-control">
+            <button class="segmented-btn ${state.profileDraft.gender==='male'?'active':''}" onclick="setDraft('gender','male')">👨 ชาย</button>
+            <button class="segmented-btn ${state.profileDraft.gender==='female'?'active':''}" onclick="setDraft('gender','female')">👩 หญิง</button>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:12px">
+          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">อายุ (ปี)</label><input class="field-input" type="number" value="${state.profileDraft.age}" oninput="setDraft('age', this.value)"/></div>
+          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">น้ำหนัก (kg)</label><input class="field-input" type="number" value="${state.profileDraft.weight}" oninput="setDraft('weight', this.value)"/></div>
+          <div><label style="font-size:11.5px; font-weight:600; color:var(--ink-muted)">ส่วนสูง (cm)</label><input class="field-input" type="number" value="${state.profileDraft.height}" oninput="setDraft('height', this.value)"/></div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <label style="font-size:12px; font-weight:600; color:var(--ink-muted); display:block; margin-bottom:4px">ระดับกิจกรรม</label>
+          <select class="field-input" onchange="setDraft('activity', this.value)">
+            ${ACTIVITY_LEVELS.map(a => `<option value="${a.id}" ${state.profileDraft.activity===a.id?'selected':''}>${a.label}</option>`).join("")}
+          </select>
+        </div>
+
+        <div style="margin-bottom:16px">
+          <label style="font-size:12px; font-weight:600; color:var(--ink-muted); display:block; margin-bottom:4px">เป้าหมายน้ำหนัก</label>
+          <div class="segmented-control">
+            ${GOALS.map(g => `<button class="segmented-btn ${state.profileDraft.goal===g.id?'active':''}" onclick="setDraft('goal','${g.id}')">${g.label}</button>`).join("")}
+          </div>
+        </div>
+
+        <button class="primary-btn" onclick="saveProfile()" style="margin-bottom:16px">💾 บันทึกเป้าหมาย TDEE</button>
+
+        <div style="border-top:1px dashed var(--line); padding-top:14px">
+          <label style="font-size:12.5px; font-weight:600; color:var(--ink); display:block; margin-bottom:4px">Anthropic API Key (สำหรับสแกนอาหาร)</label>
+          <input class="field-input" type="password" placeholder="sk-ant-..." value="${escapeAttr(state.apiKey)}" oninput="updateApiKeyDraft(this.value)" style="margin-bottom:8px"/>
+          <button class="primary-btn" style="background:var(--emerald-deep)" onclick="saveApiKey()">💾 บันทึก API Key</button>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function mealRowHTML(m){
@@ -871,84 +897,11 @@ function mealRowHTML(m){
   <div class="meal-item">
     <div>
       <div class="meal-title">${escapeHTML(m.name)}</div>
-      <div class="meal-sub">${m.calories} kcal · 🥩 P${m.protein}g · 🥑 F${m.fat}g · 🌾 C${m.carb}g · 🧂 ${m.sodium}mg</div>
+      <div class="meal-sub">${m.calories} kcal · P${m.protein}g · F${m.fat}g · C${m.carb}g · Na${m.sodium}mg</div>
     </div>
-    <button onclick="deleteMeal('${m.id}')" style="background:rgba(239,68,68,0.08); color:var(--coral-deep); border-radius:999px; padding:6px 12px; font-size:12px; font-weight:600">ลบ</button>
+    <button onclick="deleteMeal('${m.id}')" style="background:rgba(239,68,68,0.08); color:var(--coral-deep); border-radius:999px; padding:4px 10px; font-size:11.5px; font-weight:600">ลบ</button>
   </div>`;
 }
-function escapeHTML(s){ const d = document.createElement('div'); d.innerText = s; return d.innerHTML; }
-
-function logScreen(){
-  const f = state.form;
-  const canSave = f.name.trim() && f.calories !== "";
-  const hasKey = !!state.apiKey;
-
-  return `
-  <div class="glass-card">
-    <div class="card-title">รายการมื้ออาหารวันนี้</div>
-    ${state.meals.length === 0 
-      ? `<div style="color:var(--ink-soft); font-size:13.5px; text-align:center; padding:16px 0">ยังไม่มีบันทึกมื้ออาหารในวันนี้</div>` 
-      : state.meals.map(mealRowHTML).join("")}
-  </div>
-
-  <div class="glass-card">
-    <div class="card-title" style="margin-bottom:14px">บันทึกมื้ออาหารใหม่</div>
-    
-    ${!hasKey ? `
-    <div style="background:rgba(245, 158, 11, 0.1); border:1px solid rgba(245, 158, 11, 0.3); border-radius:var(--radius-md); padding:12px 14px; font-size:12.5px; color:var(--gold-deep); margin-bottom:14px; line-height:1.5">
-      💡 <b>เคล็ดลับ AI Scanner:</b> สามารถใส่ Anthropic API key ที่หน้า <b>ตั้งค่า</b> เพื่อปลดล็อกระบบถ่ายรูปอาหาร / บาร์โค้ด ให้ AI ช่วยคำนวณโภชนาการให้อัตโนมัติ!
-    </div>` : ""}
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px">
-      <button onclick="triggerCamera(false)" ${state.scanning || !hasKey ? 'disabled' : ''} class="emerald-btn" style="opacity:${hasKey ? 1 : 0.6}">
-        📷 ถ่ายรูปอาหาร
-      </button>
-      <button onclick="triggerCamera(true)" ${state.scanning || !hasKey ? 'disabled' : ''} style="background:linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%); color:#fff; border-radius:var(--radius-md); padding:12px; font-weight:600; font-size:13.5px; opacity:${hasKey ? 1 : 0.6}">
-        🏷️ Scan Barcode
-      </button>
-    </div>
-
-    <input id="cameraInput" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImageSelected(this, false)"/>
-    <input id="barcodeInput" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImageSelected(this, true)"/>
-
-    ${state.scanning ? `
-    <div class="scanning-pulse">
-      <div class="spinner"></div>
-      <span>กำลังให้ Claude AI วิเคราะห์ภาพอาหารและโภชนาการ...</span>
-    </div>` : ""}
-
-    ${state.scanError ? `
-    <div style="color:var(--coral-deep); background:var(--coral-light); border-radius:var(--radius-md); padding:10px 14px; font-size:13px; margin-bottom:14px">
-      ${state.scanError}
-    </div>` : ""}
-
-    <div class="field-group">
-      <label class="field-label">ชื่ออาหาร / มื้ออาหาร</label>
-      <input class="field-input" placeholder="เช่น ข้าวมันไก่ต้ม, ข้าวผัดกุ้ง" value="${escapeAttr(f.name)}" oninput="updateForm('name', this.value)"/>
-    </div>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
-      ${formField("แคลอรี่ (kcal)", "calories", f.calories)}
-      ${formField("โซเดียม (mg)", "sodium", f.sodium)}
-      ${formField("โปรตีน (g)", "protein", f.protein)}
-      ${formField("ไขมัน (g)", "fat", f.fat)}
-      ${formField("คาร์บ (g)", "carb", f.carb)}
-    </div>
-
-    <button class="primary-btn" style="margin-top:16px; opacity:${canSave ? 1 : 0.5}" onclick="submitMeal()" ${canSave ? '' : 'disabled'}>
-      ➕ บันทึกมื้ออาหาร
-    </button>
-  </div>`;
-}
-
-function formField(label, key, value){
-  return `
-  <div class="field-group">
-    <label class="field-label">${label}</label>
-    <input class="field-input" type="number" placeholder="0" value="${escapeAttr(value)}" oninput="updateForm('${key}', this.value)"/>
-  </div>`;
-}
-function escapeAttr(s){ return String(s).replace(/"/g, '&quot;'); }
 
 function updateForm(key, value){ state.form = { ...state.form, [key]: value }; }
 
@@ -1042,182 +995,17 @@ async function handleImageSelected(inputEl, isBarcode){
   }
 }
 
-function profileScreen(){
-  const targets = calcTargets(state.profile);
-  const d = state.profileDraft;
-
-  return `
-  <div class="glass-card">
-    <div class="card-title">ข้อมูลส่วนตัวสำหรับคำนวณ TDEE</div>
-    
-    <div class="field-group">
-      <label class="field-label">เพศ</label>
-      <div class="segmented-control">
-        <button class="segmented-btn ${d.gender==='male'?'active':''}" onclick="setDraft('gender','male')">👨 ชาย</button>
-        <button class="segmented-btn ${d.gender==='female'?'active':''}" onclick="setDraft('gender','female')">👩 หญิง</button>
-      </div>
-    </div>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px">
-      <div>
-        <label class="field-label">อายุ (ปี)</label>
-        <input class="field-input" type="number" value="${d.age}" oninput="setDraft('age', this.value)"/>
-      </div>
-      <div>
-        <label class="field-label">น้ำหนัก (kg)</label>
-        <input class="field-input" type="number" value="${d.weight}" oninput="setDraft('weight', this.value)"/>
-      </div>
-      <div>
-        <label class="field-label">ส่วนสูง (cm)</label>
-        <input class="field-input" type="number" value="${d.height}" oninput="setDraft('height', this.value)"/>
-      </div>
-    </div>
-
-    <div class="field-group" style="margin-top:12px">
-      <label class="field-label">ระดับกิจกรรมในชีวิตประจำวัน</label>
-      <select class="field-input" onchange="setDraft('activity', this.value)">
-        ${ACTIVITY_LEVELS.map(a => `<option value="${a.id}" ${d.activity===a.id?'selected':''}>${a.label}</option>`).join("")}
-      </select>
-    </div>
-
-    <div class="field-group">
-      <label class="field-label">เป้าหมายน้ำหนัก</label>
-      <div class="segmented-control">
-        ${GOALS.map(g => `
-          <button class="segmented-btn ${d.goal===g.id?'active':''}" onclick="setDraft('goal','${g.id}')">
-            ${g.label}
-          </button>
-        `).join("")}
-      </div>
-    </div>
-
-    <button class="primary-btn" style="margin-top:16px" onclick="saveProfile()">
-      💾 บันทึกและคำนวณเป้าหมายใหม่
-    </button>
-  </div>
-
-  <div class="glass-card">
-    <div class="card-title">สรุปค่าพลังงานที่คำนวณได้</div>
-    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:8px">
-      <div>
-        <div style="font-size:12px; color:var(--ink-soft)">ค่า TDEE พื้นฐาน</div>
-        <div style="font-family:'Kanit'; font-size:26px; font-weight:700; color:var(--ink)">
-          ${targets.tdee} <span style="font-size:14px; font-weight:400; color:var(--ink-soft)">kcal/วัน</span>
-        </div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:12px; color:var(--emerald-deep); font-weight:600">เป้าหมายสุทธิ</div>
-        <div style="font-family:'Kanit'; font-size:26px; font-weight:700; color:var(--emerald-deep)">
-          ${targets.calories} <span style="font-size:14px; font-weight:400; color:var(--ink-soft)">kcal/วัน</span>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
-
 function setDraft(key, val){ state.profileDraft = { ...state.profileDraft, [key]: val }; render(); }
 function saveProfile(){
   saveJSON(LS_KEYS.profile, state.profileDraft);
-  setState({ profile: { ...state.profileDraft } });
-}
-
-function settingsScreen(){
-  return `
-  <div class="glass-card">
-    <div class="card-title">ตั้งค่า Anthropic API Key (AI Vision)</div>
-    
-    <div style="background:rgba(59, 130, 246, 0.08); border:1px solid rgba(59, 130, 246, 0.2); border-radius:var(--radius-md); padding:12px 14px; font-size:12.5px; color:var(--blue-deep); margin-bottom:16px; line-height:1.6">
-      🔒 <b>ความปลอดภัยข้อมูล:</b> API key ของคุณจะถูกบันทึกไว้อย่างปลอดภัยใน <code>localStorage</code> ของเบราว์เซอร์เครื่องนี้เท่านั้น ไม่มีการส่งผ่านเซิร์ฟเวอร์อื่นนอกเหนือจาก Anthropic Direct API
-    </div>
-
-    <div class="field-group">
-      <label class="field-label">Anthropic API Key</label>
-      <input class="field-input" type="password" placeholder="sk-ant-..." value="${escapeAttr(state.apiKey)}" oninput="updateApiKeyDraft(this.value)"/>
-    </div>
-
-    <button class="primary-btn" onclick="saveApiKey()">💾 บันทึก API Key</button>
-
-    ${state.apiKey ? `
-    <button onclick="clearApiKey()" style="width:100%; border:1.5px solid var(--coral); color:var(--coral-deep); background:transparent; border-radius:var(--radius-md); padding:12px 0; font-weight:600; font-size:14px; margin-top:10px">
-      🗑️ ลบ API Key ออกจากเครื่องนี้
-    </button>` : ""}
-  </div>
-
-  <div class="glass-card" style="text-align:center">
-    <div style="font-family:'Kanit'; font-size:16px; font-weight:600; margin-bottom:4px">อิ่มพอดี (Impodee) v2.0</div>
-    <div style="font-size:12px; color:var(--ink-soft); margin-bottom:14px">Flixo Clean & Minimalist Edition</div>
-    <a href="https://github.com/meechiki/Impodee" target="_blank" class="github-badge" style="display:inline-flex">
-      <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-      ดูซอร์สโค้ดบน GitHub (meechiki/Impodee)
-    </a>
-  </div>`;
+  setState({ profile: { ...state.profileDraft }, showConfigModal: false });
 }
 
 let apiKeyDraft = state.apiKey;
 function updateApiKeyDraft(v){ apiKeyDraft = v; }
 function saveApiKey(){
   localStorage.setItem(LS_KEYS.apiKey, apiKeyDraft.trim());
-  setState({ apiKey: apiKeyDraft.trim() });
-}
-function clearApiKey(){
-  localStorage.removeItem(LS_KEYS.apiKey);
-  apiKeyDraft = "";
-  setState({ apiKey: "" });
-}
-
-/* ---------------- Root Render Engine ---------------- */
-const TABS = [
-  { id:"home", label:"หน้าหลัก", icon:"🏠" },
-  { id:"character", label:"ตัวละคร", icon:"🧍" },
-  { id:"log", label:"มื้ออาหาร", icon:"🍽️" },
-  { id:"profile", label:"โปรไฟล์", icon:"⚙️" },
-  { id:"settings", label:"ตั้งค่า", icon:"🔑" },
-];
-
-function render(){
-  const targets = calcTargets(state.profile);
-  const streak = computeStreak(targets);
-
-  let body = "";
-  if(state.tab === "home") body = homeScreen();
-  else if(state.tab === "character") body = characterScreen();
-  else if(state.tab === "log") body = logScreen();
-  else if(state.tab === "profile") body = profileScreen();
-  else if(state.tab === "settings") body = settingsScreen();
-
-  document.getElementById("root").innerHTML = `
-    <div class="header-bar">
-      <div>
-        <div class="brand-title">
-          <span>🥗</span> อิ่มพอดี
-        </div>
-        <div class="brand-subtitle">ผู้ช่วยคำนวณอาหารตาม TDEE</div>
-      </div>
-      <div style="display:flex; align-items:center; gap:8px">
-        <a href="https://github.com/meechiki/Impodee" target="_blank" class="github-badge">
-          <svg height="14" width="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-        <div class="streak-pill">
-          <span class="streak-fire">🔥</span>
-          <span style="font-family:'Kanit'; font-weight:700; font-size:14px; color:var(--gold-deep)">${streak}</span>
-        </div>
-      </div>
-    </div>
-
-    ${body}
-
-    <div class="tabbar">
-      <div class="tabbar-inner">
-        ${TABS.map(t => `
-          <button class="tab-btn ${state.tab === t.id ? 'active' : ''}" onclick="setState({tab:'${t.id}'})">
-            <span class="tab-icon">${t.icon}</span>
-            <span class="tab-label">${t.label}</span>
-          </button>
-        `).join("")}
-      </div>
-    </div>
-  `;
+  setState({ apiKey: apiKeyDraft.trim(), showConfigModal: false });
 }
 
 // Initial Launch
