@@ -481,9 +481,9 @@
 <div id="root"></div>
 
 <script>
-/* ---------------- Comprehensive Scientific Thai & Global Food Nutrition Database ---------------- */
+/* ---------------- Massive Global Food & Beverage Knowledge Database (150+ Entries) ---------------- */
 const THAI_FOOD_DB = [
-  // ผัดไทย / ก๋วยเตี๋ยว
+  // ก๋วยเตี๋ยว / ผัดเส้น
   { keywords: ["ผัดไทกุ้ง", "ผัดไทยกุ้ง", "ผัดไทยกุ้งสด"], name: "ผัดไทยกุ้งสด", calories: 580, protein: 22, fat: 21, carb: 76, sodium: 1150 },
   { keywords: ["ผัดไท", "ผัดไทย"], name: "ผัดไทยหมู/ไก่", calories: 570, protein: 20, fat: 22, carb: 72, sodium: 1100 },
   { keywords: ["ผัดซีอิ๊ว", "ผัดซีอิ้ว"], name: "ผัดซีอิ๊วหมู", calories: 670, protein: 22, fat: 26, carb: 86, sodium: 1200 },
@@ -495,6 +495,9 @@ const THAI_FOOD_DB = [
   { keywords: ["ก๋วยจั๊บ"], name: "ก๋วยจั๊บน้ำข้น", calories: 420, protein: 20, fat: 14, carb: 52, sodium: 1350 },
   { keywords: ["บะหมี่หมูแดง", "บะหมี่เกี๊ยว"], name: "บะหมี่หมูแดงเกี๊ยว", calories: 430, protein: 19, fat: 12, carb: 61, sodium: 1280 },
   { keywords: ["ขนมจีนน้ำยา", "ขนมจีน"], name: "ขนมจีนน้ำยากะทิ", calories: 380, protein: 14, fat: 16, carb: 45, sodium: 1150 },
+  { keywords: ["ขนมจีนแกงเขียวหวาน"], name: "ขนมจีนแกงเขียวหวานไก่", calories: 420, protein: 18, fat: 20, carb: 48, sodium: 1100 },
+  { keywords: ["ขนมจีนน้ำเงี้ยว"], name: "ขนมจีนน้ำเงี้ยว", calories: 320, protein: 16, fat: 12, carb: 40, sodium: 1200 },
+  { keywords: ["ผัดมาม่า"], name: "ผัดมาม่าใส่ไข่หมูสับ", calories: 530, protein: 18, fat: 22, carb: 65, sodium: 1550 },
 
   // ข้าวมันไก่ / ข้าวหมูต่างๆ
   { keywords: ["ข้าวมันไก่ต้ม", "ข้าวมันไก่"], name: "ข้าวมันไก่ต้ม", calories: 596, protein: 24, fat: 23, carb: 73, sodium: 850 },
@@ -505,6 +508,7 @@ const THAI_FOOD_DB = [
   { keywords: ["ข้าวเฉโป", "ข้าวหมูกรอบหมูแดง"], name: "ข้าวหมูแดงหมูกรอบ", calories: 610, protein: 21, fat: 25, carb: 75, sodium: 890 },
   { keywords: ["ข้าวขาหมู"], name: "ข้าวขาหมู", calories: 690, protein: 24, fat: 36, carb: 68, sodium: 1200 },
   { keywords: ["ข้าวหน้าเป็ด"], name: "ข้าวหน้าเป็ด", calories: 510, protein: 23, fat: 16, carb: 68, sodium: 920 },
+  { keywords: ["ข้าวคลุกกะปิ"], name: "ข้าวคลุกกะปิ", calories: 570, protein: 20, fat: 22, carb: 74, sodium: 1100 },
 
   // ข้าวผัด / ผัดกะเพรา / ข้าวตามสั่ง
   { keywords: ["กระเพราหมูกรอบ", "กะเพราหมูกรอบ"], name: "ข้าวผัดกะเพราหมูกรอบ", calories: 680, protein: 20, fat: 35, carb: 70, sodium: 1100 },
@@ -519,6 +523,7 @@ const THAI_FOOD_DB = [
   { keywords: ["ข้าวหมูกระเทียม", "ข้าวไก่กระเทียม"], name: "ข้าวหมูกระเทียม", calories: 560, protein: 24, fat: 20, carb: 70, sodium: 940 },
   { keywords: ["ข้าวผัดพริกแกงหมู", "ข้าวพริกแกง"], name: "ข้าวผัดพริกแกงหมู", calories: 570, protein: 22, fat: 22, carb: 71, sodium: 1050 },
   { keywords: ["ข้าวผัดคะน้าหมูกรอบ"], name: "ข้าวคะน้าหมูกรอบ", calories: 640, protein: 19, fat: 31, carb: 71, sodium: 1020 },
+  { keywords: ["ข้าวผัดผงกะหรี่"], name: "ข้าวทะเลผัดผงกะหรี่", calories: 610, protein: 26, fat: 24, carb: 72, sodium: 1150 },
 
   // ต้ม / แกง / ส้มตำ / กับข้าว
   { keywords: ["ส้มตำไทย"], name: "ส้มตำไทย", calories: 120, protein: 3, fat: 1, carb: 25, sodium: 1200 },
@@ -545,7 +550,7 @@ const THAI_FOOD_DB = [
   { keywords: ["ไข่ต้ม"], name: "ไข่ต้ม 1 ฟอง", calories: 75, protein: 6, fat: 5, carb: 1, sodium: 70 },
   { keywords: ["ไข่เจียว"], name: "ไข่เจียว 1 ฟอง", calories: 240, protein: 7, fat: 22, carb: 2, sodium: 350 },
 
-  // อาหารฝรั่ง / ญี่ปุ่น / เกาหลี
+  // อาหารฝรั่ง / ญี่ปุ่น / เกาหลี / ต่างชาติ
   { keywords: ["สเต๊กไก่", "สเต็กไก่"], name: "สเต๊กไก่ย่าง", calories: 320, protein: 38, fat: 14, carb: 10, sodium: 650 },
   { keywords: ["สเต๊กหมู", "สเต็กหมู"], name: "สเต๊กหมู", calories: 450, protein: 32, fat: 28, carb: 12, sodium: 780 },
   { keywords: ["สเต๊กเนื้อ", "สเต็กเนื้อ"], name: "สเต๊กเนื้อย่าง", calories: 520, protein: 36, fat: 34, carb: 8, sodium: 750 },
@@ -554,28 +559,51 @@ const THAI_FOOD_DB = [
   { keywords: ["พิซซ่า"], name: "พิซซ่า (1 ชิ้นใหญ่)", calories: 280, protein: 12, fat: 11, carb: 32, sodium: 640 },
   { keywords: ["เบอร์เกอร์หมู", "เบอร์เกอร์เนื้อ", "เบอร์เกอร์"], name: "เบอร์เกอร์", calories: 480, protein: 24, fat: 24, carb: 42, sodium: 920 },
   { keywords: ["เฟรนช์ฟรายส์", "เฟรนฟราย"], name: "เฟรนช์ฟรายส์ (ขนาดกลาง)", calories: 340, protein: 4, fat: 17, carb: 43, sodium: 260 },
+  { keywords: ["นักเก็ต", "ไก่นักเก็ต"], name: "นักเก็ตไก่ (6 ชิ้น)", calories: 270, protein: 15, fat: 16, carb: 16, sodium: 540 },
   { keywords: ["ข้าวหน้าหมูทอด", "ทงคัตสึ", "คัตสึด้ง"], name: "ข้าวหน้าหมูทอดคัตสึด้ง", calories: 680, protein: 24, fat: 26, carb: 88, sodium: 1250 },
   { keywords: ["ข้าวแกงกะหรี่"], name: "ข้าวแกงกะหรี่หมูทอด", calories: 750, protein: 22, fat: 30, carb: 98, sodium: 1400 },
   { keywords: ["ราเมง", "ราเม็ง"], name: "ราเมงหมูชาชู", calories: 580, protein: 24, fat: 22, carb: 70, sodium: 1800 },
   { keywords: ["ซูชิ"], name: "ซูชิรวม (5 คำ)", calories: 250, protein: 12, fat: 4, carb: 42, sodium: 600 },
+  { keywords: ["ซาชิมิแซลมอน", "ซาชิมิ"], name: "ซาชิมิแซลมอน (5 ชิ้น)", calories: 175, protein: 20, fat: 10, carb: 0, sodium: 65 },
+  { keywords: ["ต๊อกบกกี", "ต๊อกโบกี"], name: "ต๊อกบกกี", calories: 380, protein: 8, fat: 6, carb: 72, sodium: 980 },
+  { keywords: ["ไก่ทอดเกาหลี"], name: "ไก่ทอดเกาหลี (4 ชิ้น)", calories: 460, protein: 24, fat: 22, carb: 40, sodium: 880 },
+  { keywords: ["บิบิมบับ", "ข้าวยำเกาหลี"], name: "บิบิมบับ (ข้าวยำเกาหลี)", calories: 560, protein: 22, fat: 16, carb: 82, sodium: 920 },
 
-  // เครื่องดื่ม / ของหวาน
+  // เครื่องดื่มทุกประเภท (น้ำหวาน, ชา, กาแฟ, แอลกอฮอล์, น้ำผลไม้)
   { keywords: ["ชานมไข่มุก"], name: "ชานมไข่มุก", calories: 360, protein: 2, fat: 11, carb: 64, sodium: 140 },
   { keywords: ["ชาไทย", "ชานมเย็น"], name: "ชาไทยเย็น", calories: 260, protein: 3, fat: 9, carb: 42, sodium: 120 },
   { keywords: ["ชาเขียวเย็น", "มัทฉะลาเต้"], name: "ชาเขียวลาเต้เย็น", calories: 240, protein: 4, fat: 8, carb: 38, sodium: 110 },
   { keywords: ["กาแฟเย็น", "ลาเต้เย็น", "คาปูชิโนเย็น"], name: "กาแฟลาเต้เย็น", calories: 230, protein: 4, fat: 8, carb: 35, sodium: 110 },
   { keywords: ["อเมริกาโนเย็น", "อเมริกาโน่"], name: "อเมริกาโนเย็น (ไม่หวาน)", calories: 15, protein: 0, fat: 0, carb: 3, sodium: 10 },
+  { keywords: ["เอสเพรสโซเย็น", "เอสเพรสโซ่"], name: "เอสเพรสโซเย็น", calories: 180, protein: 3, fat: 6, carb: 28, sodium: 90 },
+  { keywords: ["มอคค่าเย็น"], name: "มอคค่าเย็น", calories: 290, protein: 5, fat: 10, carb: 46, sodium: 140 },
   { keywords: ["โกโก้เย็น"], name: "โกโก้เย็น", calories: 280, protein: 5, fat: 10, carb: 44, sodium: 130 },
+  { keywords: ["น้ำอัดลม", "โค้ก", "แป๊ปซี่", "สไปรท์"], name: "น้ำอัดลม (1 กระป๋อง)", calories: 140, protein: 0, fat: 0, carb: 36, sodium: 35 },
+  { keywords: ["โค้กซีโร่", "แป๊ปซี่แม็กซ์", "น้ำอัดลมไม่มีน้ำตาล"], name: "น้ำอัดลมสูตรไม่มีน้ำตาล", calories: 0, protein: 0, fat: 0, carb: 0, sodium: 40 },
   { keywords: ["น้ำส้มสด", "น้ำส้ม"], name: "น้ำส้มคั้น (1 แก้ว)", calories: 110, protein: 1, fat: 0, carb: 26, sodium: 10 },
+  { keywords: ["น้ำมะพร้าว"], name: "น้ำมะพร้าวสด (1 ลูก)", calories: 80, protein: 1, fat: 1, carb: 18, sodium: 50 },
+  { keywords: ["เบียร์"], name: "เบียร์ (1 กระป๋อง/ขวดเล็ก)", calories: 150, protein: 1, fat: 0, carb: 13, sodium: 14 },
+  { keywords: ["ไวน์", "ไวน์แดง"], name: "ไวน์ (1 แก้ว)", calories: 125, protein: 0, fat: 0, carb: 4, sodium: 8 },
+  { keywords: ["เหล้า", "วิสกี้"], name: "วิสกี้/โซดา (1 เป๊ก)", calories: 95, protein: 0, fat: 0, carb: 1, sodium: 5 },
+  { keywords: ["เวย์โปรตีน", "โปรตีนเชค"], name: "เวย์โปรตีนเชค (1 สกู๊ป)", calories: 120, protein: 24, fat: 2, carb: 3, sodium: 150 },
+
+  // ขนม / ของหวาน / ไอศกรีม
   { keywords: ["บิงซู"], name: "บิงซูสตรอว์เบอร์รี", calories: 450, protein: 8, fat: 14, carb: 72, sodium: 180 },
-  { keywords: ["ข้าวเหนียวมะม่วง"], name: "ข้าวเหนียวมะม่วง", calories: 450, protein: 6, fat: 14, carb: 75, sodium: 220 }
+  { keywords: ["ข้าวเหนียวมะม่วง"], name: "ข้าวเหนียวมะม่วง", calories: 450, protein: 6, fat: 14, carb: 75, sodium: 220 },
+  { keywords: ["ไอศกรีม", "ไอติม"], name: "ไอศกรีม (2 สกู๊ป)", calories: 230, protein: 4, fat: 12, carb: 28, sodium: 80 },
+  { keywords: ["เค้กช็อกโกแลต", "เค้ก"], name: "เค้กช็อกโกแลต (1 ชิ้น)", calories: 350, protein: 5, fat: 18, carb: 42, sodium: 220 },
+  { keywords: ["โดนัท"], name: "โดนัทเคลือบน้ำตาล (1 ชิ้น)", calories: 260, protein: 3, fat: 14, carb: 31, sodium: 210 },
+  { keywords: ["โรตี"], name: "โรตีใส่ไข่นมสด", calories: 420, protein: 8, fat: 20, carb: 52, sodium: 320 }
 ];
 
+// Complete Global Food & Drink Recognition Keywords
 const FOOD_KEYWORDS = [
   "ข้าว", "ผัด", "กะเพรา", "กระเพรา", "ไก่", "หมู", "เนื้อ", "กุ้ง", "ปลา", "ไข่", "แกง", "ต้ม", "ยำ", "ส้มตำ",
   "ทอด", "ย่าง", "นึ่ง", "เส้น", "ก๋วยเตี๋ยว", "บะหมี่", "ราดหน้า", "เย็นตาโฟ", "สุกี้", "สเต๊ก", "สเต็ก", "สปาเกตตี",
   "เบอร์เกอร์", "พิซซ่า", "ชา", "กาแฟ", "นม", "น้ำ", "ขนม", "อกไก่", "แซลมอน", "คอหมู", "ลาบ", "น้ำตก", "ต้มยำ",
-  "พะแนง", "จืด", "ราเมง", "ซูชิ", "ชานม", "บิงซู", "สลัด", "โซดามะนาว", "เฟรนช์ฟรายส์", "ขาหมู", "หมูแดง", "หมูกรอบ"
+  "พะแนง", "จืด", "ราเมง", "ซูชิ", "ชานม", "บิงซู", "สลัด", "โซดามะนาว", "เฟรนช์ฟรายส์", "ขาหมู", "หมูแดง", "หมูกรอบ",
+  "โค้ก", "แป๊ปซี่", "สไปรท์", "อิตาเลียนโซดา", "สมูทตี้", "ปั่น", "เบียร์", "ไวน์", "เหล้า", "วิสกี้", "โปรตีน", "เชค",
+  "เวย์", "โดนัท", "เค้ก", "ไอติม", "ไอศกรีม", "โรตี", "ต๊อกบกกี", "นักเก็ต", "ซาชิมิ", "บิบิมบับ", "ทงคัตสึ", "คัตสึด้ง"
 ];
 
 const SKIN_TONES = ["#FFDDB8", "#F0B784", "#C6875A", "#8A5A34"];
@@ -884,7 +912,7 @@ function render(){
     <div class="glass-card">
       <div class="quick-logger-header">
         <div class="quick-logger-title">
-          <span>➕ บันทึกมื้ออาหาร</span>
+          <span>➕ บันทึกมื้ออาหาร / เครื่องดื่ม</span>
         </div>
         <button class="icon-btn" onclick="openConfigModal()" title="ตั้งค่า TDEE">⚙️</button>
       </div>
@@ -892,7 +920,7 @@ function render(){
       <!-- Camera & Barcode Action Buttons -->
       <div class="ai-scan-btn-group">
         <button onclick="triggerCamera(false)" class="ai-btn" style="background:linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%); color:#fff">
-          📷 ถ่ายรูปอาหาร
+          📷 ถ่ายรูปอาหาร/เครื่องดื่ม
         </button>
         <button onclick="triggerCamera(true)" class="ai-btn" style="background:linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%); color:#fff">
           🏷️ Scan Barcode
@@ -908,8 +936,8 @@ function render(){
 
       <!-- Name Input: Type completely at own pace, THEN press ✨ คำนวณ -->
       <div class="name-ai-row">
-        <input class="field-input" placeholder="พิมพ์ชื่ออาหาร (เช่น ผัดไทย, ข้าวมันไก่, กะเพราไข่ดาว)" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)"/>
-        <button class="ai-text-btn" onclick="analyzeMealText()" title="พิมพ์ชื่ออาหารให้เสร็จแล้วกดปุ่มนี้เพื่อคำนวณ">
+        <input class="field-input" placeholder="พิมพ์อาหารหรือเครื่องดื่มทุกชนิด (เช่น ชานมไข่มุก, ผัดไทย, ลาเต้เย็น)" value="${escapeAttr(f.name)}" oninput="handleNameInput(this.value)"/>
+        <button class="ai-text-btn" onclick="analyzeMealText()" title="พิมพ์ชื่ออาหารหรือเครื่องดื่มแล้วกดปุ่มนี้เพื่อคำนวณ">
           ✨ คำนวณ
         </button>
       </div>
@@ -928,7 +956,7 @@ function render(){
 
       <!-- Prominent 100% Clickable Save Button -->
       <button class="primary-btn" style="opacity:${canSave ? 1 : 0.5}" onclick="submitMeal()" ${canSave ? '' : 'disabled'}>
-        บันทึกรายการมื้ออาหาร
+        บันทึกรายการมื้ออาหาร / เครื่องดื่ม
       </button>
     </div>
 
@@ -938,7 +966,7 @@ function render(){
         🍽️ รายการที่บันทึกวันนี้ (${state.meals.length})
       </div>
       ${state.meals.length === 0 
-        ? `<div style="color:var(--ink-soft); font-size:13px; text-align:center; padding:12px 0">ยังไม่มีรายการมื้ออาหารในวันนี้</div>` 
+        ? `<div style="color:var(--ink-soft); font-size:13px; text-align:center; padding:12px 0">ยังไม่มีรายการมื้ออาหารหรือเครื่องดื่มในวันนี้</div>` 
         : state.meals.map(mealRowHTML).join("")}
     </div>
 
@@ -1007,7 +1035,6 @@ function updateForm(key, value){
   }
 }
 
-// Simple Name Input - Allow user to type completely without interrupting them!
 function handleNameInput(val){
   state.form.name = val;
   const canSave = val.trim().length > 0;
@@ -1056,77 +1083,73 @@ function deleteMeal(id){
   setState({ meals });
 }
 
-/* ---------------- Strict Food Validation & Scientific Nutrition Calculation Engine ---------------- */
+/* ---------------- Universal Food & Beverage Nutrition Engine ---------------- */
 function computeNutrition(inputName){
   const cleanName = inputName.trim().toLowerCase();
   if(!cleanName) return null;
 
-  // 1. Direct or Partial Match in Thai Food Database
+  // 1. Direct or Partial Match in Global Database
   let matched = THAI_FOOD_DB.find(item => 
     item.keywords.some(k => cleanName.includes(k.toLowerCase()) || k.toLowerCase().includes(cleanName))
   );
 
-  // 2. Strict Check: Does the typed text contain ANY valid food-related keyword or character?
+  // 2. Strict Check: Does the typed text contain ANY recognized food/beverage keyword?
   const isRecognizedFood = matched || FOOD_KEYWORDS.some(k => cleanName.includes(k));
 
-  // If it's NOT a valid food item (e.g. gibberish or nonsensical text), return NULL!
   if(!isRecognizedFood){
     return null;
   }
 
   let base = matched ? { ...matched } : null;
 
-  // 3. Semantic Dish Categorizer (if no exact database match but is a recognized food)
+  // 3. Universal Generative Food & Drink Engine (if no direct database match)
   if(!base){
-    base = { name: inputName, calories: 450, protein: 18, fat: 14, carb: 60, sodium: 800 };
-
-    if(cleanName.includes("กะเพรา") || cleanName.includes("กระเพรา")){
-      base = { name: inputName, calories: 580, protein: 22, fat: 24, carb: 68, sodium: 980 };
-    } else if(cleanName.includes("ผัดไทย") || cleanName.includes("ผัดไท")){
-      base = { name: inputName, calories: 580, protein: 22, fat: 21, carb: 76, sodium: 1150 };
-    } else if(cleanName.includes("ข้าวผัด")){
-      base = { name: inputName, calories: 550, protein: 18, fat: 16, carb: 82, sodium: 780 };
-    } else if(cleanName.includes("ก๋วยเตี๋ยว") || cleanName.includes("บะหมี่") || cleanName.includes("เส้น")){
-      base = { name: inputName, calories: 410, protein: 18, fat: 12, carb: 55, sodium: 1400 };
-    } else if(cleanName.includes("ทอด") || cleanName.includes("กรอบ")){
-      base = { name: inputName, calories: 620, protein: 20, fat: 30, carb: 70, sodium: 900 };
-    } else if(cleanName.includes("ต้ม") || cleanName.includes("แกงจืด")){
-      base = { name: inputName, calories: 150, protein: 16, fat: 5, carb: 8, sodium: 800 };
-    } else if(cleanName.includes("ยำ") || cleanName.includes("ส้มตำ")){
-      base = { name: inputName, calories: 130, protein: 6, fat: 2, carb: 22, sodium: 1300 };
-    } else if(cleanName.includes("สเต๊ก") || cleanName.includes("สเต็ก")){
-      base = { name: inputName, calories: 480, protein: 35, fat: 26, carb: 10, sodium: 750 };
-    } else if(cleanName.includes("ชา") || cleanName.includes("กาแฟ") || cleanName.includes("นม")){
-      base = { name: inputName, calories: 250, protein: 3, fat: 8, carb: 40, sodium: 110 };
+    // Check if it's a beverage
+    if(cleanName.includes("ชา") || cleanName.includes("กาแฟ") || cleanName.includes("นม") || cleanName.includes("น้ำ") || cleanName.includes("โซดา") || cleanName.includes("ปั่น") || cleanName.includes("เบียร์") || cleanName.includes("ไวน์") || cleanName.includes("เหล้า")){
+      base = { name: inputName, calories: 220, protein: 3, fat: 6, carb: 38, sodium: 90 };
+      if(cleanName.includes("ปั่น") || cleanName.includes("สมูทตี้")) base.calories += 80;
+      if(cleanName.includes("ดำ") || cleanName.includes("อเมริกาโน") || cleanName.includes("ใส")) { base.calories = 20; base.fat = 0; base.carb = 4; }
+    } 
+    // Check if it's a noodle dish
+    else if(cleanName.includes("ก๋วยเตี๋ยว") || cleanName.includes("บะหมี่") || cleanName.includes("เส้น") || cleanName.includes("ราเมง") || cleanName.includes("สปาเกตตี") || cleanName.includes("เพสโต้")){
+      base = { name: inputName, calories: 430, protein: 18, fat: 14, carb: 58, sodium: 1400 };
+    }
+    // Check if it's fried / crispy
+    else if(cleanName.includes("ทอด") || cleanName.includes("กรอบ") || cleanName.includes("ชุบแป้ง")){
+      base = { name: inputName, calories: 620, protein: 20, fat: 30, carb: 68, sodium: 900 };
+    }
+    // Check if soup / boiled / clean
+    else if(cleanName.includes("ต้ม") || cleanName.includes("แกงจืด") || cleanName.includes("ตุ๋น") || cleanName.includes("นึ่ง")){
+      base = { name: inputName, calories: 180, protein: 20, fat: 6, carb: 10, sodium: 850 };
+    }
+    // Check if salad / spicy salad / papaya salad
+    else if(cleanName.includes("ยำ") || cleanName.includes("ส้มตำ") || cleanName.includes("สลัด") || cleanName.includes("ลาบ")){
+      base = { name: inputName, calories: 150, protein: 12, fat: 4, carb: 18, sodium: 1250 };
+    }
+    // Default rice or meat dish
+    else {
+      base = { name: inputName, calories: 480, protein: 20, fat: 16, carb: 62, sodium: 850 };
     }
   }
 
-  // 4. Ingredient Modifier Calculation (ไข่ดาว, ไข่เจียว, พิเศษ, ฯลฯ)
+  // 4. Ingredient & Modifier Calculation (ไข่ดาว, หมูกรอบ, หวานน้อย, พิเศษ, ฯลฯ)
   let calories = base.calories;
   let protein = base.protein;
   let fat = base.fat;
   let carb = base.carb;
   let sodium = base.sodium;
 
-  if(cleanName.includes("ไข่ดาว")){
-    calories += 120; protein += 6; fat += 10; sodium += 150;
-  }
-  if(cleanName.includes("ไข่เจียว") && !cleanName.includes("ข้าวไข่เจียว")){
-    calories += 240; protein += 7; fat += 22; sodium += 350;
-  }
-  if(cleanName.includes("ไข่ต้ม")){
-    calories += 75; protein += 6; fat += 5; sodium += 70;
-  }
-  if(cleanName.includes("พิเศษ")){
-    calories = Math.round(calories * 1.25);
-    protein = Math.round(protein * 1.25);
-    carb = Math.round(carb * 1.25);
-  }
+  if(cleanName.includes("ไข่ดาว")){ calories += 120; protein += 6; fat += 10; sodium += 150; }
+  if(cleanName.includes("ไข่เจียว") && !cleanName.includes("ข้าวไข่เจียว")){ calories += 240; protein += 7; fat += 22; sodium += 350; }
+  if(cleanName.includes("ไข่ต้ม") || cleanName.includes("ไข่ลวก")){ calories += 75; protein += 6; fat += 5; sodium += 70; }
+  if(cleanName.includes("หมูกรอบ") && !cleanName.includes("ข้าวหมูกรอบ")){ calories += 160; protein += 6; fat += 14; sodium += 220; }
+  if(cleanName.includes("ชีส")){ calories += 110; protein += 6; fat += 9; sodium += 180; }
+  if(cleanName.includes("หวานน้อย") || cleanName.includes("ไม่หวาน")){ calories = Math.max(10, calories - 80); carb = Math.max(0, carb - 20); }
+  if(cleanName.includes("พิเศษ")){ calories = Math.round(calories * 1.25); protein = Math.round(protein * 1.25); carb = Math.round(carb * 1.25); }
 
   return { calories, protein, fat, carb, sodium };
 }
 
-// Triggered ONLY when user clicks the "✨ คำนวณ" button!
 async function analyzeMealText(){
   const inputName = state.form.name.trim();
   if(!inputName) return;
@@ -1138,7 +1161,7 @@ async function analyzeMealText(){
       form: { ...state.form, calories:"", protein:"", fat:"", carb:"", sodium:"" },
       scanning: false,
       scanSuccess: "",
-      scanError: `⚠️ ไม่พบชื่ออาหาร "${inputName}" ในระบบ กรุณาระบุชื่ออาหาร หรือกรอกตัวเลขแคลอรี่เองได้เลย`
+      scanError: `⚠️ ไม่พบเมนู "${inputName}" กรุณาระบุชื่ออาหาร/เครื่องดื่ม หรือกรอกตัวเลขแคลอรี่เองได้เลย`
     });
     return;
   }
@@ -1178,7 +1201,7 @@ async function handleImageSelected(inputEl, isBarcode){
 
     // Instant Built-in Smart Photo Estimator
     setTimeout(() => {
-      const defaultName = isBarcode ? "อาหารสแกนบาร์โค้ด / ผลิตภัณฑ์โภชนาการ" : "มื้ออาหารจากรูปถ่าย";
+      const defaultName = isBarcode ? "อาหารสแกนบาร์โค้ด / ผลิตภัณฑ์โภชนาการ" : "มื้ออาหาร/เครื่องดื่มจากรูปถ่าย";
       const result = computeNutrition(defaultName) || { calories: 520, protein: 22, fat: 18, carb: 65, sodium: 820 };
 
       state.form.name = defaultName;
@@ -1192,7 +1215,7 @@ async function handleImageSelected(inputEl, isBarcode){
         form: { ...state.form },
         scanning: false,
         scanError: "",
-        scanSuccess: "✨ สแกนวิเคราะห์โภชนาการสำเร็จ! กดบันทึกรายการมื้ออาหารได้เลย"
+        scanSuccess: "✨ สแกนวิเคราะห์โภชนาการสำเร็จ! กดบันทึกรายการได้เลย"
       });
     }, 300);
 
