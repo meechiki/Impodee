@@ -345,6 +345,17 @@
   }
   .ai-text-btn:active { transform: scale(0.96); }
 
+  .status-badge {
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-align: center;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+
   /* Collapsible / Drawer Accordion */
   .expandable-panel {
     max-height: 0;
@@ -558,6 +569,14 @@ const THAI_FOOD_DB = [
   { keywords: ["น้ำส้มสด", "น้ำส้ม"], name: "น้ำส้มคั้น (1 แก้ว)", calories: 110, protein: 1, fat: 0, carb: 26, sodium: 10 },
   { keywords: ["บิงซู"], name: "บิงซูสตรอว์เบอร์รี", calories: 450, protein: 8, fat: 14, carb: 72, sodium: 180 },
   { keywords: ["ข้าวเหนียวมะม่วง"], name: "ข้าวเหนียวมะม่วง", calories: 450, protein: 6, fat: 14, carb: 75, sodium: 220 }
+];
+
+// Valid Food Keywords to detect real food names vs gibberish/nonsense
+const FOOD_KEYWORDS = [
+  "ข้าว", "ผัด", "กะเพรา", "กระเพรา", "ไก่", "หมู", "เนื้อ", "กุ้ง", "ปลา", "ไข่", "แกง", "ต้ม", "ยำ", "ส้มตำ",
+  "ทอด", "ย่าง", "นึ่ง", "เส้น", "ก๋วยเตี๋ยว", "บะหมี่", "ราดหน้า", "เย็นตาโฟ", "สุกี้", "สเต๊ก", "สเต็ก", "สปาเกตตี",
+  "เบอร์เกอร์", "พิซซ่า", "ชา", "กาแฟ", "นม", "น้ำ", "ขนม", "อกไก่", "แซลมอน", "คอหมู", "ลาบ", "น้ำตก", "ต้มยำ",
+  "พะแนง", "จืด", "ราเมง", "ซูชิ", "ชานม", "บิงซู", "สลัด", "โซดามะนาว", "เฟรนช์ฟรายส์", "ขาหมู", "หมูแดง", "หมูกรอบ"
 ];
 
 const SKIN_TONES = ["#FFDDB8", "#F0B784", "#C6875A", "#8A5A34"];
@@ -885,8 +904,8 @@ function render(){
       <input id="barcodeInput" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImageSelected(this, true)"/>
 
       ${state.scanning ? `<div style="color:var(--emerald-deep); font-size:12.5px; font-weight:600; text-align:center; padding:6px 0">✨ กำลังคำนวณสารอาหาร...</div>` : ""}
-      ${state.scanSuccess ? `<div style="color:var(--emerald-deep); background:var(--emerald-light); border-radius:var(--radius-md); padding:8px 12px; font-size:12.5px; font-weight:600; margin-bottom:10px; text-align:center">${state.scanSuccess}</div>` : ""}
-      ${state.scanError ? `<div style="color:var(--coral-deep); font-size:12px; margin-bottom:8px">${state.scanError}</div>` : ""}
+      ${state.scanSuccess ? `<div class="status-badge" style="color:var(--emerald-deep); background:var(--emerald-light); border:1px solid rgba(16, 185, 129, 0.3)">${state.scanSuccess}</div>` : ""}
+      ${state.scanError ? `<div class="status-badge" style="color:var(--coral-deep); background:var(--coral-light); border:1px solid rgba(255, 107, 74, 0.3)">${state.scanError}</div>` : ""}
 
       <!-- Name Input with Instant Realtime Auto Calculate -->
       <div class="name-ai-row">
@@ -1016,11 +1035,13 @@ function submitMeal(){
   // Auto-calculate if calories field is empty upon save
   if(!f.calories || Number(f.calories) <= 0){
     const calc = computeNutrition(mealName);
-    f.calories = String(calc.calories);
-    f.protein = String(calc.protein);
-    f.fat = String(calc.fat);
-    f.carb = String(calc.carb);
-    f.sodium = String(calc.sodium);
+    if(calc){
+      f.calories = String(calc.calories);
+      f.protein = String(calc.protein);
+      f.fat = String(calc.fat);
+      f.carb = String(calc.carb);
+      f.sodium = String(calc.sodium);
+    }
   }
 
   const meal = {
@@ -1044,18 +1065,27 @@ function deleteMeal(id){
   setState({ meals });
 }
 
-/* ---------------- Scientific Nutrition Calculation Engine ---------------- */
+/* ---------------- Strict Food Validation & Scientific Nutrition Calculation Engine ---------------- */
 function computeNutrition(inputName){
   const cleanName = inputName.trim().toLowerCase();
-  
+  if(!cleanName) return null;
+
   // 1. Direct or Partial Match in Thai Food Database
   let matched = THAI_FOOD_DB.find(item => 
     item.keywords.some(k => cleanName.includes(k.toLowerCase()) || k.toLowerCase().includes(cleanName))
   );
 
+  // 2. Strict Check: Does the typed text contain ANY valid food-related keyword or character?
+  const isRecognizedFood = matched || FOOD_KEYWORDS.some(k => cleanName.includes(k));
+
+  // If it's NOT a valid food item (e.g. gibberish or nonsensical text), return NULL!
+  if(!isRecognizedFood){
+    return null;
+  }
+
   let base = matched ? { ...matched } : null;
 
-  // 2. Semantic Dish Categorizer (if no exact database match)
+  // 3. Semantic Dish Categorizer (if no exact database match but is a recognized food)
   if(!base){
     base = { name: inputName, calories: 450, protein: 18, fat: 14, carb: 60, sodium: 800 };
 
@@ -1080,7 +1110,7 @@ function computeNutrition(inputName){
     }
   }
 
-  // 3. Ingredient Modifier Calculation (ไข่ดาว, ไข่เจียว, พิเศษ, ฯลฯ)
+  // 4. Ingredient Modifier Calculation (ไข่ดาว, ไข่เจียว, พิเศษ, ฯลฯ)
   let calories = base.calories;
   let protein = base.protein;
   let fat = base.fat;
@@ -1111,6 +1141,16 @@ async function analyzeMealText(){
 
   const result = computeNutrition(inputName);
 
+  if(!result){
+    setState({
+      form: { ...state.form, calories:"", protein:"", fat:"", carb:"", sodium:"" },
+      scanning: false,
+      scanSuccess: "",
+      scanError: `⚠️ ไม่พบชื่ออาหาร "${inputName}" ในระบบ กรุณาระบุชื่ออาหาร หรือกรอกตัวเลขแคลอรี่เองได้เลย`
+    });
+    return;
+  }
+
   state.form.calories = String(result.calories);
   state.form.protein = String(result.protein);
   state.form.fat = String(result.fat);
@@ -1120,6 +1160,7 @@ async function analyzeMealText(){
   setState({
     form: { ...state.form },
     scanning: false,
+    scanError: "",
     scanSuccess: `✨ คำนวณโภชนาการสำหรับ "${inputName}" เรียบร้อย (${result.calories} kcal) กดบันทึกได้เลย!`
   });
 }
@@ -1146,7 +1187,7 @@ async function handleImageSelected(inputEl, isBarcode){
     // Instant Built-in Smart Photo Estimator
     setTimeout(() => {
       const defaultName = isBarcode ? "อาหารสแกนบาร์โค้ด / ผลิตภัณฑ์โภชนาการ" : "มื้ออาหารจากรูปถ่าย";
-      const result = computeNutrition(defaultName);
+      const result = computeNutrition(defaultName) || { calories: 520, protein: 22, fat: 18, carb: 65, sodium: 820 };
 
       state.form.name = defaultName;
       state.form.calories = String(result.calories);
@@ -1158,6 +1199,7 @@ async function handleImageSelected(inputEl, isBarcode){
       setState({
         form: { ...state.form },
         scanning: false,
+        scanError: "",
         scanSuccess: "✨ สแกนวิเคราะห์โภชนาการสำเร็จ! กดบันทึกรายการมื้ออาหารได้เลย"
       });
     }, 300);
